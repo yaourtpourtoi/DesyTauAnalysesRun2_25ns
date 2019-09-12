@@ -154,7 +154,6 @@ int main(int argc, char * argv[]){
 
   const bool ApplyPUweight    = cfg.get<bool>("ApplyPUweight"); 
   const bool ApplyLepSF       = cfg.get<bool>("ApplyLepSF"); 
-  const bool ApplyLeptonSFfromKIT  = cfg.get<bool>("ApplyLeptonSFfromKIT"); 
   const bool ApplyTrigger     = cfg.get<bool>("ApplyTrigger"); 
   const bool ApplySVFit       = cfg.get<bool>("ApplySVFit");
   const bool ApplyBTagScaling = cfg.get<bool>("ApplyBTagScaling");
@@ -1186,24 +1185,6 @@ for (Long64_t iEntry=0; iEntry<numberOfEntries; iEntry++) {
 
 	}
 
-	// use lepton SF from KIT workspace - for MSSM 
-	// already binned in lepton isolation, no need for antiiso weights in separate branches.
-	if (ApplyLeptonSFfromKIT){
-	  if (ch == "mt"){
-	  w_kitLeptonSF ->var("m_eta")->setVal(leptonLV.Eta());
-	  w_kitLeptonSF ->var("m_pt")->setVal(leptonLV.Pt());
-	  w_kitLeptonSF ->var("m_iso")->setVal(otree->iso_1);
-	  otree->idisoweight_1 = (w_kitLeptonSF->function("m_id_ratio")->getVal())*(w_kitLeptonSF->function("m_iso_binned_ratio")->getVal());
-	  otree->trigweight_1 = w_kitLeptonSF->function("m_trgOR4_binned_ratio")->getVal();
-	  }
-	  else if (ch == "et"){
-	  w_kitLeptonSF ->var("e_eta")->setVal(analysisTree.electron_superclusterEta[leptonIndex]);//leptonLV.Eta());
-	  w_kitLeptonSF ->var("e_pt")->setVal(leptonLV.Pt());
-	  w_kitLeptonSF ->var("e_iso")->setVal(otree->iso_1);
-	  otree->idisoweight_1 = (w_kitLeptonSF->function("e_id_ratio")->getVal())*(w_kitLeptonSF->function("e_iso_binned_ratio")->getVal());
-	  otree->trigweight_1 = w_kitLeptonSF->function("e_trg_binned_ratio")->getVal();
-	  }
-	}
 
       }
       
