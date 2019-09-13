@@ -549,7 +549,7 @@ int main(int argc, char * argv[]){
   met_filters_list.push_back("Flag_BadPFMuonFilter");
   //metFlags.push_back("Flag_BadChargedCandidateFilter");  // currently not recommended, under review
   met_filters_list.push_back("ecalBadCalibReducedMINIAODFilter"); //WAS NOT IN LIST ABOVE
-  counter[20]++;
+  int counter[20];
 
   ///////////////FILE LOOP///////////////
 
