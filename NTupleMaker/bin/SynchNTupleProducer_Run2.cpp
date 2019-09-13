@@ -586,42 +586,42 @@ int main(int argc, char * argv[]){
       analysisTree.GetEntry(iEntry);
       nEvents++;
     
-      // if (isData)
-      //   nWeightedEventsH->Fill(0., 1.);
-      // else {
-      // 	nWeightedEventsH->Fill(0., analysisTree.genweight);
-      // 	FillGenTree(&analysisTree,gentree);
-      // 	gentree->Fill();
-      // }
-      // 
-      // //Skip events not passing the MET filters, if applied
-      // if (ApplyMetFilters && !passedAllMetFilters(&analysisTree, met_filters_list, isData)) continue;
-      // counter[1]++;
-      // 
-      // // Check if all triggers are existent in each event and save index
-      // vector<int> nSingleLepTrig(filterSingleLep.size(), -1);
-      // vector<int> nXTrigLepLeg(filterXtriggerLepLeg.size(), -1);
-      // vector<int> nXTrigTauLeg(filterXtriggerTauLeg.size(), -1);
-      // 
-      // if(ApplyTrigger){
-      // 	vector<bool> checkFilterSingleLep(filterSingleLep.size(), false); 
-      // 	vector<bool> checkFilterXTrigLepLeg(filterXtriggerLepLeg.size(), false); 
-      // 	vector<bool> checkFilterXTrigTauLeg(filterXtriggerTauLeg.size(), false);
-      // 	unsigned int nfilters = analysisTree.run_hltfilters->size();
-      // 
-      // 	for (unsigned int i = 0; i < nfilters; ++i) {
-      // 	  TString HLTFilter(analysisTree.run_hltfilters->at(i));
-      // 	  for(unsigned int i_trig = 0; i_trig < filterSingleLep.size(); i_trig++){
-      // 	    if (HLTFilter == filterSingleLep.at(i_trig)){ nSingleLepTrig.at(i_trig) = i; checkFilterSingleLep.at(i_trig) = true;}
-      // 	  }
-      // 	  for(unsigned int i_trig = 0; i_trig < filterXtriggerLepLeg.size(); i_trig++){
-      // 	    if (HLTFilter == filterXtriggerLepLeg.at(i_trig)){ nXTrigLepLeg.at(i_trig) = i; checkFilterXTrigLepLeg.at(i_trig) = true;}
-      // 	  }
-      // 	  for(unsigned int i_trig = 0; i_trig < filterXtriggerTauLeg.size(); i_trig++){
-      // 	    if (HLTFilter == filterXtriggerTauLeg.at(i_trig)){ nXTrigTauLeg.at(i_trig) = i; checkFilterXTrigTauLeg.at(i_trig) = true;}
-      // 	  }
-      // 	}
-      // }
+      if (isData)
+        nWeightedEventsH->Fill(0., 1.);
+      else {
+      	nWeightedEventsH->Fill(0., analysisTree.genweight);
+      	FillGenTree(&analysisTree,gentree);
+      	gentree->Fill();
+      }
+      
+      //Skip events not passing the MET filters, if applied
+      if (ApplyMetFilters && !passedAllMetFilters(&analysisTree, met_filters_list, isData)) continue;
+      counter[1]++;
+      
+      // Check if all triggers are existent in each event and save index
+      vector<int> nSingleLepTrig(filterSingleLep.size(), -1);
+      vector<int> nXTrigLepLeg(filterXtriggerLepLeg.size(), -1);
+      vector<int> nXTrigTauLeg(filterXtriggerTauLeg.size(), -1);
+      
+      if(ApplyTrigger){
+      	vector<bool> checkFilterSingleLep(filterSingleLep.size(), false); 
+      	vector<bool> checkFilterXTrigLepLeg(filterXtriggerLepLeg.size(), false); 
+      	vector<bool> checkFilterXTrigTauLeg(filterXtriggerTauLeg.size(), false);
+      	unsigned int nfilters = analysisTree.run_hltfilters->size();
+      
+      	for (unsigned int i = 0; i < nfilters; ++i) {
+      	  TString HLTFilter(analysisTree.run_hltfilters->at(i));
+      	  for(unsigned int i_trig = 0; i_trig < filterSingleLep.size(); i_trig++){
+      	    if (HLTFilter == filterSingleLep.at(i_trig)){ nSingleLepTrig.at(i_trig) = i; checkFilterSingleLep.at(i_trig) = true;}
+      	  }
+      	  for(unsigned int i_trig = 0; i_trig < filterXtriggerLepLeg.size(); i_trig++){
+      	    if (HLTFilter == filterXtriggerLepLeg.at(i_trig)){ nXTrigLepLeg.at(i_trig) = i; checkFilterXTrigLepLeg.at(i_trig) = true;}
+      	  }
+      	  for(unsigned int i_trig = 0; i_trig < filterXtriggerTauLeg.size(); i_trig++){
+      	    if (HLTFilter == filterXtriggerTauLeg.at(i_trig)){ nXTrigTauLeg.at(i_trig) = i; checkFilterXTrigTauLeg.at(i_trig) = true;}
+      	  }
+      	}
+      }
     
       if (nEvents % 10000 == 0) 
       	cout << "      processed " << nEvents << " events" << endl; 
