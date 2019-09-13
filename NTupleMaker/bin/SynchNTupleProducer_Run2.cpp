@@ -954,269 +954,269 @@ int main(int argc, char * argv[]){
       otree->effweight = otree->idisoweight_1 * otree->trkeffweight * otree->idisoweight_2 * otree->trigweight;
       otree->weight = otree->effweight * otree->puweight * otree->mcweight; 
     
-      //counting jet
-      jets::counting_jets(&analysisTree, otree, &cfg, &inputs_btag_scaling_medium);
-      //MET
-      //Merijn 2019 6 20: overloaded the function, it takes the era as arugment now, to take pfmetcorr for 2016 and 2017..
-      fillMET(ch, leptonIndex, tauIndex, &analysisTree, otree, cfg.get<int>("era"));
+      // //counting jet
+      // jets::counting_jets(&analysisTree, otree, &cfg, &inputs_btag_scaling_medium);
+      // //MET
+      // //Merijn 2019 6 20: overloaded the function, it takes the era as arugment now, to take pfmetcorr for 2016 and 2017..
+      // fillMET(ch, leptonIndex, tauIndex, &analysisTree, otree, cfg.get<int>("era"));
+      // 
+      // TLorentzVector genV( 0., 0., 0., 0.);
+      // TLorentzVector genL( 0., 0., 0., 0.);
+      // 
+      // // Zpt weight
+      // otree->zptweight = 1.;
+      // if (!isData && ((isDY && isMG ) || isEWKZ)){
+      //   genV = genTools::genV(analysisTree); // gen Z boson ?
+      // 	float bosonMass = genV.M();
+      // 	float bosonPt = genV.Pt();
+      // 
+      //   //Merijn determine here some min and max values:
+      //   double massxmin = h_zptweight->GetXaxis()->GetXmin();
+      //   double massxmax = h_zptweight->GetXaxis()->GetXmax();
+      // 
+      //   double ptxmin = h_zptweight->GetYaxis()->GetXmin();
+      //   double ptxmax = h_zptweight->GetYaxis()->GetXmax();
+      // 
+      // 	//Merijn 2019 6 13: adjust to T/M functions, to get boundaries right. Otherwise, for 2017 data we get few outliers that screw up the weight histogram dramatically.
+      // 	Float_t zptmassweight = 1;
+      // 	if (bosonMass > 50.0) {
+      //     float bosonMassX = bosonMass;
+      //     float bosonPtX = bosonPt;
+      //     if (bosonMassX > massxmax) bosonMassX = massxmax - h_zptweight->GetXaxis()->GetBinWidth(h_zptweight->GetYaxis()->GetNbins())*0.5;//Merijn: if doesn't work, lower by 1/2 binwidth..
+      //     if (bosonPtX < ptxmin)     bosonPtX = ptxmin + h_zptweight->GetYaxis()->GetBinWidth(1)*0.5;
+      //     if (bosonPtX > ptxmax)     bosonPtX = ptxmax - h_zptweight->GetYaxis()->GetBinWidth(h_zptweight->GetYaxis()->GetNbins())*0.5;
+      //     zptmassweight = h_zptweight->GetBinContent(h_zptweight->GetXaxis()->FindBin(bosonMassX), h_zptweight->GetYaxis()->FindBin(bosonPtX));
+      //     }	
+      //     otree->zptweight = zptmassweight;
+      // }
+      // 
+      // // topPt weight
+      // otree->topptweight = 1.;
+      // if(!isData){
+      //    otree->topptweight = genTools::topPtWeight(analysisTree, lhc_run_era);
+      // }
+      // counter[11]++;
+      // 
+      // // lepton tau fakerates
+      // otree->mutaufakeweight = 1.;
+      // otree->etaufakeweight = 1.;
+      // if (!isData){
+      // 	if (ch == "et") {
+      // 	  otree->etaufakeweight = leptauFR->get_fakerate("electron", "Tight", otree->eta_2, otree->gen_match_2);
+      // 	  otree->mutaufakeweight = leptauFR->get_fakerate("muon", "Loose", otree->eta_2, otree->gen_match_2);
+      // 	}
+    	//   else if (ch == "mt") {
+      // 	  otree->etaufakeweight = leptauFR->get_fakerate("electron", "VLoose", otree->eta_2, otree->gen_match_2);
+      // 	  otree->mutaufakeweight = leptauFR->get_fakerate("muon", "Tight", otree->eta_2, otree->gen_match_2);
+      // 	}
+      // }
     
-      TLorentzVector genV( 0., 0., 0., 0.);
-      TLorentzVector genL( 0., 0., 0., 0.);
+      ////////////////////////////////////////////////////////////
+      // MET Recoil Corrections
+      ////////////////////////////////////////////////////////////
     
-      // Zpt weight
-      otree->zptweight = 1.;
-      if (!isData && ((isDY && isMG ) || isEWKZ)){
-        genV = genTools::genV(analysisTree); // gen Z boson ?
-      	float bosonMass = genV.M();
-      	float bosonPt = genV.Pt();
-    
-        //Merijn determine here some min and max values:
-        double massxmin = h_zptweight->GetXaxis()->GetXmin();
-        double massxmax = h_zptweight->GetXaxis()->GetXmax();
-    
-        double ptxmin = h_zptweight->GetYaxis()->GetXmin();
-        double ptxmax = h_zptweight->GetYaxis()->GetXmax();
-    
-      	//Merijn 2019 6 13: adjust to T/M functions, to get boundaries right. Otherwise, for 2017 data we get few outliers that screw up the weight histogram dramatically.
-      	Float_t zptmassweight = 1;
-      	if (bosonMass > 50.0) {
-          float bosonMassX = bosonMass;
-          float bosonPtX = bosonPt;
-          if (bosonMassX > massxmax) bosonMassX = massxmax - h_zptweight->GetXaxis()->GetBinWidth(h_zptweight->GetYaxis()->GetNbins())*0.5;//Merijn: if doesn't work, lower by 1/2 binwidth..
-          if (bosonPtX < ptxmin)     bosonPtX = ptxmin + h_zptweight->GetYaxis()->GetBinWidth(1)*0.5;
-          if (bosonPtX > ptxmax)     bosonPtX = ptxmax - h_zptweight->GetYaxis()->GetBinWidth(h_zptweight->GetYaxis()->GetNbins())*0.5;
-          zptmassweight = h_zptweight->GetBinContent(h_zptweight->GetXaxis()->FindBin(bosonMassX), h_zptweight->GetYaxis()->FindBin(bosonPtX));
-          }	
-          otree->zptweight = zptmassweight;
+      otree->njetshad = otree->njets;
+      if (!isData && applyRecoilCorrections && (isDY || isWJets || isVBForGGHiggs || isMSSMsignal) ){
+      	genV = genTools::genV(analysisTree);
+      	genL = genTools::genL(analysisTree);
+      	if(isWJets) otree->njetshad += 1;
       }
     
-      // topPt weight
-      otree->topptweight = 1.;
-      if(!isData){
-         otree->topptweight = genTools::topPtWeight(analysisTree, lhc_run_era);
-      }
-      counter[11]++;
+      // PF MET
+      genTools::RecoilCorrections( *recoilPFMetCorrector, 
+  			   (!isData && applyRecoilCorrections && (isDY || isWJets || isVBForGGHiggs || isMSSMsignal)) * genTools::MeanResolution,
+  			   otree->met, otree->metphi,
+  			   genV.Px(), genV.Py(),
+  			   genL.Px(), genL.Py(),
+  			   otree->njetshad,
+  			   otree->met_rcmr, otree->metphi_rcmr
+  			   );
     
-      // lepton tau fakerates
-      otree->mutaufakeweight = 1.;
-      otree->etaufakeweight = 1.;
-      if (!isData){
-      	if (ch == "et") {
-      	  otree->etaufakeweight = leptauFR->get_fakerate("electron", "Tight", otree->eta_2, otree->gen_match_2);
-      	  otree->mutaufakeweight = leptauFR->get_fakerate("muon", "Loose", otree->eta_2, otree->gen_match_2);
+      // overwriting with recoil-corrected values 
+      otree->met = otree->met_rcmr;
+      otree->metphi = otree->metphi_rcmr;   
+    
+      //ditau sytem
+      TLorentzVector tauLV; tauLV.SetXYZM(analysisTree.tau_px[tauIndex],
+  				     analysisTree.tau_py[tauIndex],
+  				     analysisTree.tau_pz[tauIndex],
+  				     analysisTree.tau_mass[tauIndex]);
+    
+    
+      // using PF MET
+      TLorentzVector metLV; 
+      metLV.SetXYZT(otree->met*TMath::Cos(otree->metphi), otree->met*TMath::Sin(otree->metphi), 0,
+                    TMath::Sqrt( otree->met*TMath::Sin(otree->metphi)*otree->met*TMath::Sin(otree->metphi) +
+  			               otree->met*TMath::Cos(otree->metphi)*otree->met*TMath::Cos(otree->metphi)));
+    
+    
+      // shift the tau energy scale by decay mode and propagate to the met. 
+      if (!isData) {
+      	bool isOneProng = false;
+      	float shift_tes = 0.0;
+      	if (otree->gen_match_2 >= 5){
+      	  if (otree->tau_decay_mode_2 == 0){
+            shift_tes = shift_tes_1prong; 
+            isOneProng = true;
+          }
+      	  else if (otree->tau_decay_mode_2 == 1) shift_tes = shift_tes_1p1p0; 
+      	  else if (otree->tau_decay_mode_2 == 10) shift_tes = shift_tes_3prong;
+         }
+      	else if (otree->gen_match_2 < 5) {
+      	  if (otree->tau_decay_mode_2 == 0)      {shift_tes = shift_tes_lepfake_1prong; isOneProng = true;}
+      	  else if (otree->tau_decay_mode_2 == 1)  shift_tes = shift_tes_lepfake_1p1p0; 
+      	  else if (otree->tau_decay_mode_2 == 10) shift_tes = shift_tes_lepfake_3prong; 
       	}
-    	  else if (ch == "mt") {
-      	  otree->etaufakeweight = leptauFR->get_fakerate("electron", "VLoose", otree->eta_2, otree->gen_match_2);
-      	  otree->mutaufakeweight = leptauFR->get_fakerate("muon", "Tight", otree->eta_2, otree->gen_match_2);
+      	correctTauES(tauLV, metLV, shift_tes, isOneProng);	    
+      	otree->pt_2 = tauLV.Pt();
+      	otree->m_2 = tauLV.M();
+      	otree->met = metLV.Pt();
+      	otree->metphi = metLV.Phi();
+       }
+    
+      if (!isData) {
+      	if(otree->gen_match_2 == 5 && tauLV.E() <= 400 && tauLV.E() >= 20){
+      	  if (otree->tau_decay_mode_2 == 0) tauLV *= (1-0.03);
+      	  else if (otree->tau_decay_mode_2 < 5) tauLV *= (1-0.02);
+      	  else if (otree->tau_decay_mode_2 == 10)tauLV *= (1-0.01);
+      	  otree->pt_2 = tauLV.Pt();
+      	  otree->m_2 = tauLV.M();
       	}
       }
     
-    //   ////////////////////////////////////////////////////////////
-    //   // MET Recoil Corrections
-    //   ////////////////////////////////////////////////////////////
-    // 
-    //   otree->njetshad = otree->njets;
-    //   if (!isData && applyRecoilCorrections && (isDY || isWJets || isVBForGGHiggs || isMSSMsignal) ){
-    //   	genV = genTools::genV(analysisTree);
-    //   	genL = genTools::genL(analysisTree);
-    //   	if(isWJets) otree->njetshad += 1;
-    //   }
-    // 
-    //   // PF MET
-    //   genTools::RecoilCorrections( *recoilPFMetCorrector, 
-  	// 		   (!isData && applyRecoilCorrections && (isDY || isWJets || isVBForGGHiggs || isMSSMsignal)) * genTools::MeanResolution,
-  	// 		   otree->met, otree->metphi,
-  	// 		   genV.Px(), genV.Py(),
-  	// 		   genL.Px(), genL.Py(),
-  	// 		   otree->njetshad,
-  	// 		   otree->met_rcmr, otree->metphi_rcmr
-  	// 		   );
-    // 
-    //   // overwriting with recoil-corrected values 
-    //   otree->met = otree->met_rcmr;
-    //   otree->metphi = otree->metphi_rcmr;   
-    // 
-    //   //ditau sytem
-    //   TLorentzVector tauLV; tauLV.SetXYZM(analysisTree.tau_px[tauIndex],
-  	// 			     analysisTree.tau_py[tauIndex],
-  	// 			     analysisTree.tau_pz[tauIndex],
-  	// 			     analysisTree.tau_mass[tauIndex]);
-    // 
-    // 
-    //   // using PF MET
-    //   TLorentzVector metLV; 
-    //   metLV.SetXYZT(otree->met*TMath::Cos(otree->metphi), otree->met*TMath::Sin(otree->metphi), 0,
-    //                 TMath::Sqrt( otree->met*TMath::Sin(otree->metphi)*otree->met*TMath::Sin(otree->metphi) +
-  	// 		               otree->met*TMath::Cos(otree->metphi)*otree->met*TMath::Cos(otree->metphi)));
-    // 
-    // 
-    //   // shift the tau energy scale by decay mode and propagate to the met. 
-    //   if (!isData) {
-    //   	bool isOneProng = false;
-    //   	float shift_tes = 0.0;
-    //   	if (otree->gen_match_2 >= 5){
-    //   	  if (otree->tau_decay_mode_2 == 0){
-    //         shift_tes = shift_tes_1prong; 
-    //         isOneProng = true;
-    //       }
-    //   	  else if (otree->tau_decay_mode_2 == 1) shift_tes = shift_tes_1p1p0; 
-    //   	  else if (otree->tau_decay_mode_2 == 10) shift_tes = shift_tes_3prong;
-    //      }
-    //   	else if (otree->gen_match_2 < 5) {
-    //   	  if (otree->tau_decay_mode_2 == 0)      {shift_tes = shift_tes_lepfake_1prong; isOneProng = true;}
-    //   	  else if (otree->tau_decay_mode_2 == 1)  shift_tes = shift_tes_lepfake_1p1p0; 
-    //   	  else if (otree->tau_decay_mode_2 == 10) shift_tes = shift_tes_lepfake_3prong; 
-    //   	}
-    //   	correctTauES(tauLV, metLV, shift_tes, isOneProng);	    
-    //   	otree->pt_2 = tauLV.Pt();
-    //   	otree->m_2 = tauLV.M();
-    //   	otree->met = metLV.Pt();
-    //   	otree->metphi = metLV.Phi();
-    //    }
-    // 
-    //   if (!isData) {
-    //   	if(otree->gen_match_2 == 5 && tauLV.E() <= 400 && tauLV.E() >= 20){
-    //   	  if (otree->tau_decay_mode_2 == 0) tauLV *= (1-0.03);
-    //   	  else if (otree->tau_decay_mode_2 < 5) tauLV *= (1-0.02);
-    //   	  else if (otree->tau_decay_mode_2 == 10)tauLV *= (1-0.01);
-    //   	  otree->pt_2 = tauLV.Pt();
-    //   	  otree->m_2 = tauLV.M();
-    //   	}
-    //   }
-    // 
-    //   TLorentzVector dileptonLV = leptonLV + tauLV;
-    //   otree->m_vis = dileptonLV.M();
-    //   otree->pt_tt = (dileptonLV+metLV).Pt();   
-    // 
-    //   // mt TOT
-    //   float mtTOT = 2*(otree->pt_1)*metLV.Pt()*(1-cos(DeltaPhi(leptonLV,metLV)));
-    //   mtTOT += 2*(otree->pt_2)*metLV.Pt()*(1-cos(DeltaPhi(tauLV,metLV))); 
-    //   mtTOT += 2*(otree->pt_1)*(otree->pt_2)*(1-cos(DeltaPhi(leptonLV,tauLV))); 
-    //   otree->mt_tot = TMath::Sqrt(mtTOT);
-    // 
-    //   // opposite charge
-    //   otree->os = (otree->q_1 * otree->q_2) < 0.;
-    // 
-    //   // dilepton veto
-    //   if(ch=="mt") otree->dilepton_veto = dilepton_veto_mt(&cfg, &analysisTree);
-    //   if(ch=="et") otree->dilepton_veto = dilepton_veto_et(&cfg, &analysisTree);
-    // 
-  	//   //extra lepton veto
-    //   otree->extraelec_veto = extra_electron_veto(leptonIndex, ch, &cfg, &analysisTree);
-    //   otree->extramuon_veto = extra_muon_veto(leptonIndex, ch, &cfg, &analysisTree, isData);
-    // 
-    //   counter[13]++;
-    // 
-    //   otree->mt_1 = mT(leptonLV, metLV);
-    //   otree->mt_2 = mT(tauLV, metLV);
-    // 
-    //   // bisector of lepton and tau transverse momenta
-    // 
-    //   float leptonUnitX = leptonLV.Px() / leptonLV.Pt();
-    //   float leptonUnitY = leptonLV.Py() / leptonLV.Pt();
-    // 
-    //   float tauUnitX = tauLV.Px() / tauLV.Pt();
-    //   float tauUnitY = tauLV.Py() / tauLV.Pt();
-    // 
-    //   float zetaX = leptonUnitX + tauUnitX;
-    //   float zetaY = leptonUnitY + tauUnitY;
-    // 
-    //   float normZeta = TMath::Sqrt(zetaX*zetaX+zetaY*zetaY);
-    // 
-    //   zetaX = zetaX / normZeta;
-    //   zetaY = zetaY / normZeta;
-    // 
-    //   float vectorVisX = leptonLV.Px() + tauLV.Px();
-    //   float vectorVisY = leptonLV.Py() + tauLV.Py();
-    // 
-    //   otree->pzetavis  = vectorVisX*zetaX + vectorVisY*zetaY;
-    //   otree->pzetamiss = otree->met*TMath::Cos(otree->metphi)*zetaX + otree->met*TMath::Sin(otree->metphi)*zetaY;
-    //   counter[14]++;
-    // 
-    //   // svfit variables
-    //   otree->m_sv   = -10;//Merijn updated for the DNN
-    //   otree->pt_sv  = -9999;
-    //   otree->eta_sv = -9999;
-    //   otree->phi_sv = -9999;
-    //   otree->met_sv = -9999;
-    //   otree->mt_sv = -9999;
-    // 
-    //   //calculate SV fit only for events passing baseline selection and mt cut
-    //   // fill otree only for events passing baseline selection 
-    //   // for synchronisation, take all events
-    //   const bool Synch = cfg.get<bool>("Synch"); 
-    //   bool passedBaselineSel = false;
-    // 
-  	//   // for SM analysis
-    //   if (ch == "mt") 
-    //     passedBaselineSel = ( otree->iso_1<0.35 && otree->byLooseIsolationMVArun2017v2DBoldDMwLT2017_2>0.5 && 
-  	// 	      otree->againstElectronVLooseMVA6_2>0.5 && otree->againstMuonTight3_2>0.5  &&
-  	// 	      otree->dilepton_veto == 0 && otree->extraelec_veto == 0 && otree->extramuon_veto == 0);
-    //   if (ch == "et") 
-    //     passedBaselineSel = ( otree->iso_1<0.35 && otree->byLooseIsolationMVArun2017v2DBoldDMwLT2017_2>0.5 && 
-    //                         otree->againstMuonLoose3_2>0.5 && otree->againstElectronTightMVA6_2>0.5 && 
-    //                         otree->dilepton_veto == 0 && otree->extraelec_veto == 0 && otree->extramuon_veto == 0);
-    // 
-    //   if(otree->iso_1<0.35 && 
-    // 	 otree->againstMuonLoose3_2 > 0.5 && otree->againstElectronTightMVA6_2 > 0.5 && 
-    // 	 otree->dilepton_veto == 0 && otree->extraelec_veto == 0 && otree->extramuon_veto == 0) counter[15]++;
-    //   if(otree->iso_1 < 0.35 && otree->byLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5 && 
-    // 	 otree->againstElectronTightMVA6_2 > 0.5 && 
-    // 	 otree->dilepton_veto == 0 && otree->extraelec_veto == 0 && otree->extramuon_veto == 0) counter[16]++;
-    //   if(otree->iso_1 < 0.35 && otree->byLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5 && 
-    // 	 otree->againstMuonLoose3_2 > 0.5 && 
-    // 	 otree->dilepton_veto == 0 && otree->extraelec_veto == 0 && otree->extramuon_veto == 0) counter[17]++;
-    //   if(otree->iso_1 < 0.35 && otree->byLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5 && 
-    //   	 otree->againstMuonLoose3_2 > 0.5 && otree->againstElectronTightMVA6_2 > 0.5 ) counter[18]++;
-    // 
-    //   //if (!Synch && !passedBaselineSel) continue;
-    // 
-    //   if (ApplySVFit && otree->njetspt20 > 0) svfit_variables(ch, &analysisTree, otree, &cfg, inputFile_visPtResolution);
-    // 
-    // 
-    //   //addition Merijn: here we select the constituent of the tau with highest pT
-    //   int ncomponents = analysisTree.tau_constituents_count[tauIndex];
-    //   float maxPt = -1;
-    //   int sign = -1;
-    //   int pdgcode = -9999;
-    //   if(analysisTree.tau_charge[tauIndex] > 0) sign = 1; 
-    // 
-    //   for(int i = 0; i < ncomponents; i++){  
-    //     if((analysisTree.tau_constituents_pdgId[tauIndex][i]*sign) > 0){
-    //       TLorentzVector lvector; 
-    //       lvector.SetXYZT(analysisTree.tau_constituents_px[tauIndex][i],
-    //   				      analysisTree.tau_constituents_py[tauIndex][i],
-    //   				      analysisTree.tau_constituents_pz[tauIndex][i],
-    //   				      analysisTree.tau_constituents_e[tauIndex][i]);
-    //       double Pt = lvector.Pt();
-    //       if(Pt > maxPt){
-    //       	pdgcode = analysisTree.tau_constituents_pdgId[tauIndex][i];
-    //       	maxPt = Pt;
-    //       }
-    //     }
-    //   }
-    // 
-    //   otree->pdgcodetau2 = pdgcode; //Merijn tried here to assign to our tree. Not working yet so put in histogam..
-    //   ConstitsPDG->Fill(pdgcode);
-    //   if(abs(pdgcode) != 211 && abs(pdgcode) != 22) nonpionphotonctr++;
-    // 
-    //     // evaluate systematics for MC 
-    //   if(!isData && ApplySystShift){
-    //   zPtWeightSys->Eval(); 
-    //   topPtWeightSys->Eval();
-    //   for(unsigned int i = 0; i < jetEnergyScaleSys.size(); i++)
-    //     (jetEnergyScaleSys.at(i))->Eval(); 
-    //   if (ch == "mt") tauScaleSys->Eval(utils::MUTAU);
-    //   else if (ch == "et") tauScaleSys->Eval(utils::ETAU);
-    //   }
-    //   counter[19]++;
-    // 
-    // 
-    //   //CP calculation. Updates Merijn: placed calculation at end, when all kinematic corrections are performed. Removed statement to only do calculation for tt. 
-    //   //Created the acott_Impr function, which takes ch as input as well. See the funcrtion in functionsCP.h to see my updates to the function itself      
-    //   //Merijn 2019 1 10 debug: a major source of problems was that indices were innertwined from the beginning...
-    //   //one should note that in et or mt case,
-    //   acott_Impr(&analysisTree, otree, leptonIndex, tauIndex, ch);
+      TLorentzVector dileptonLV = leptonLV + tauLV;
+      otree->m_vis = dileptonLV.M();
+      otree->pt_tt = (dileptonLV+metLV).Pt();   
+    
+      // mt TOT
+      float mtTOT = 2*(otree->pt_1)*metLV.Pt()*(1-cos(DeltaPhi(leptonLV,metLV)));
+      mtTOT += 2*(otree->pt_2)*metLV.Pt()*(1-cos(DeltaPhi(tauLV,metLV))); 
+      mtTOT += 2*(otree->pt_1)*(otree->pt_2)*(1-cos(DeltaPhi(leptonLV,tauLV))); 
+      otree->mt_tot = TMath::Sqrt(mtTOT);
+    
+      // opposite charge
+      otree->os = (otree->q_1 * otree->q_2) < 0.;
+    
+      // dilepton veto
+      if(ch=="mt") otree->dilepton_veto = dilepton_veto_mt(&cfg, &analysisTree);
+      if(ch=="et") otree->dilepton_veto = dilepton_veto_et(&cfg, &analysisTree);
+    
+  	  //extra lepton veto
+      otree->extraelec_veto = extra_electron_veto(leptonIndex, ch, &cfg, &analysisTree);
+      otree->extramuon_veto = extra_muon_veto(leptonIndex, ch, &cfg, &analysisTree, isData);
+    
+      counter[13]++;
+    
+      otree->mt_1 = mT(leptonLV, metLV);
+      otree->mt_2 = mT(tauLV, metLV);
+    
+      // bisector of lepton and tau transverse momenta
+    
+      float leptonUnitX = leptonLV.Px() / leptonLV.Pt();
+      float leptonUnitY = leptonLV.Py() / leptonLV.Pt();
+    
+      float tauUnitX = tauLV.Px() / tauLV.Pt();
+      float tauUnitY = tauLV.Py() / tauLV.Pt();
+    
+      float zetaX = leptonUnitX + tauUnitX;
+      float zetaY = leptonUnitY + tauUnitY;
+    
+      float normZeta = TMath::Sqrt(zetaX*zetaX+zetaY*zetaY);
+    
+      zetaX = zetaX / normZeta;
+      zetaY = zetaY / normZeta;
+    
+      float vectorVisX = leptonLV.Px() + tauLV.Px();
+      float vectorVisY = leptonLV.Py() + tauLV.Py();
+    
+      otree->pzetavis  = vectorVisX*zetaX + vectorVisY*zetaY;
+      otree->pzetamiss = otree->met*TMath::Cos(otree->metphi)*zetaX + otree->met*TMath::Sin(otree->metphi)*zetaY;
+      counter[14]++;
+    
+      // svfit variables
+      otree->m_sv   = -10;//Merijn updated for the DNN
+      otree->pt_sv  = -9999;
+      otree->eta_sv = -9999;
+      otree->phi_sv = -9999;
+      otree->met_sv = -9999;
+      otree->mt_sv = -9999;
+    
+      //calculate SV fit only for events passing baseline selection and mt cut
+      // fill otree only for events passing baseline selection 
+      // for synchronisation, take all events
+      const bool Synch = cfg.get<bool>("Synch"); 
+      bool passedBaselineSel = false;
+    
+  	  // for SM analysis
+      if (ch == "mt") 
+        passedBaselineSel = ( otree->iso_1<0.35 && otree->byLooseIsolationMVArun2017v2DBoldDMwLT2017_2>0.5 && 
+  		      otree->againstElectronVLooseMVA6_2>0.5 && otree->againstMuonTight3_2>0.5  &&
+  		      otree->dilepton_veto == 0 && otree->extraelec_veto == 0 && otree->extramuon_veto == 0);
+      if (ch == "et") 
+        passedBaselineSel = ( otree->iso_1<0.35 && otree->byLooseIsolationMVArun2017v2DBoldDMwLT2017_2>0.5 && 
+                            otree->againstMuonLoose3_2>0.5 && otree->againstElectronTightMVA6_2>0.5 && 
+                            otree->dilepton_veto == 0 && otree->extraelec_veto == 0 && otree->extramuon_veto == 0);
+    
+      if(otree->iso_1<0.35 && 
+    	 otree->againstMuonLoose3_2 > 0.5 && otree->againstElectronTightMVA6_2 > 0.5 && 
+    	 otree->dilepton_veto == 0 && otree->extraelec_veto == 0 && otree->extramuon_veto == 0) counter[15]++;
+      if(otree->iso_1 < 0.35 && otree->byLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5 && 
+    	 otree->againstElectronTightMVA6_2 > 0.5 && 
+    	 otree->dilepton_veto == 0 && otree->extraelec_veto == 0 && otree->extramuon_veto == 0) counter[16]++;
+      if(otree->iso_1 < 0.35 && otree->byLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5 && 
+    	 otree->againstMuonLoose3_2 > 0.5 && 
+    	 otree->dilepton_veto == 0 && otree->extraelec_veto == 0 && otree->extramuon_veto == 0) counter[17]++;
+      if(otree->iso_1 < 0.35 && otree->byLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5 && 
+      	 otree->againstMuonLoose3_2 > 0.5 && otree->againstElectronTightMVA6_2 > 0.5 ) counter[18]++;
+    
+      //if (!Synch && !passedBaselineSel) continue;
+    
+      if (ApplySVFit && otree->njetspt20 > 0) svfit_variables(ch, &analysisTree, otree, &cfg, inputFile_visPtResolution);
+    
+    
+      //addition Merijn: here we select the constituent of the tau with highest pT
+      int ncomponents = analysisTree.tau_constituents_count[tauIndex];
+      float maxPt = -1;
+      int sign = -1;
+      int pdgcode = -9999;
+      if(analysisTree.tau_charge[tauIndex] > 0) sign = 1; 
+    
+      for(int i = 0; i < ncomponents; i++){  
+        if((analysisTree.tau_constituents_pdgId[tauIndex][i]*sign) > 0){
+          TLorentzVector lvector; 
+          lvector.SetXYZT(analysisTree.tau_constituents_px[tauIndex][i],
+      				      analysisTree.tau_constituents_py[tauIndex][i],
+      				      analysisTree.tau_constituents_pz[tauIndex][i],
+      				      analysisTree.tau_constituents_e[tauIndex][i]);
+          double Pt = lvector.Pt();
+          if(Pt > maxPt){
+          	pdgcode = analysisTree.tau_constituents_pdgId[tauIndex][i];
+          	maxPt = Pt;
+          }
+        }
+      }
+    
+      otree->pdgcodetau2 = pdgcode; //Merijn tried here to assign to our tree. Not working yet so put in histogam..
+      ConstitsPDG->Fill(pdgcode);
+      if(abs(pdgcode) != 211 && abs(pdgcode) != 22) nonpionphotonctr++;
+    
+        // evaluate systematics for MC 
+      if(!isData && ApplySystShift){
+      zPtWeightSys->Eval(); 
+      topPtWeightSys->Eval();
+      for(unsigned int i = 0; i < jetEnergyScaleSys.size(); i++)
+        (jetEnergyScaleSys.at(i))->Eval(); 
+      if (ch == "mt") tauScaleSys->Eval(utils::MUTAU);
+      else if (ch == "et") tauScaleSys->Eval(utils::ETAU);
+      }
+      counter[19]++;
+    
+    
+      //CP calculation. Updates Merijn: placed calculation at end, when all kinematic corrections are performed. Removed statement to only do calculation for tt. 
+      //Created the acott_Impr function, which takes ch as input as well. See the funcrtion in functionsCP.h to see my updates to the function itself      
+      //Merijn 2019 1 10 debug: a major source of problems was that indices were innertwined from the beginning...
+      //one should note that in et or mt case,
+      acott_Impr(&analysisTree, otree, leptonIndex, tauIndex, ch);
       selEvents++;
     
       //Merijn 2019 1 10: perhaps this should be called before moving to next event..
