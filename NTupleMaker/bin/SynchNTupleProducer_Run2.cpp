@@ -581,11 +581,11 @@ int main(int argc, char * argv[]){
     
     ///////////////EVENT LOOP///////////////
 
-    // for (Long64_t iEntry = 0; iEntry < numberOfEntries; iEntry++) {
-    //   counter[0]++;
-    //   analysisTree.GetEntry(iEntry);
-    //   nEvents++;
-    // 
+    for (Long64_t iEntry = 0; iEntry < numberOfEntries; iEntry++) {
+      counter[0]++;
+      analysisTree.GetEntry(iEntry);
+      nEvents++;
+    
     //   if (isData)
     //     nWeightedEventsH->Fill(0., 1.);
     //   else {
@@ -623,8 +623,8 @@ int main(int argc, char * argv[]){
     //   	}
     //   }
     // 
-    //   if (nEvents % 10000 == 0) 
-    //   	cout << "      processed " << nEvents << " events" << endl; 
+      if (nEvents % 10000 == 0) 
+      	cout << "      processed " << nEvents << " events" << endl; 
     // 
     //   otree->run  = analysisTree.event_run;
     //   otree->lumi = analysisTree.event_luminosityblock;
@@ -1227,7 +1227,7 @@ int main(int argc, char * argv[]){
     delete _tree;
     file_->Close();
     delete file_;
-  }
+  } // file loop
    
   std::cout << "COUNTERS" << std::endl;
   for(int iC = 0; iC < 20; iC++) std::cout << "Counter " << iC << ":    " << counter[iC] << std::endl;
