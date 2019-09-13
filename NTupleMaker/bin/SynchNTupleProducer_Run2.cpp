@@ -1221,7 +1221,7 @@ int main(int argc, char * argv[]){
     // 
     //   //Merijn 2019 1 10: perhaps this should be called before moving to next event..
     //   otree->Fill();
-    // } // end of file processing (loop over events in one file)
+    } // event loop
 
     nFiles++;
     delete _tree;
