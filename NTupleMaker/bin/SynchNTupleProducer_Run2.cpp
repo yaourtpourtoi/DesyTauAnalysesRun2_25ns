@@ -671,125 +671,125 @@ int main(int argc, char * argv[]){
         taus.push_back(it);
       }
       counter[3]++;
-    // 
-    //   //lepton selection
-    //   vector<int> leptons; leptons.clear();
-    //   if(ch == "et"){
-    //     for (unsigned int ie = 0; ie<analysisTree.electron_count; ++ie) {
-    //       bool electronMvaId = analysisTree.electron_mva_wp80_Iso_Fall17_v1[ie];
-    //   	  // bool electronMvaId = analysisTree.electron_mva_wp80_general_Spring16_v1[ie];
-    // 
-    //       if (analysisTree.electron_pt[ie] <= ptLeptonLowCut) continue;
-    //       if (fabs(analysisTree.electron_eta[ie]) >= etaLeptonCut) continue;
-    //       if (fabs(analysisTree.electron_dxy[ie]) >= dxyLeptonCut) continue;
-    //   	  if (fabs(analysisTree.electron_dz[ie]) >= dzLeptonCut) continue;
-    //       if (!electronMvaId && applyLeptonId) continue;
-    // 
-    //   	  //Meirjn 2019 8 20: reinstated. They are mentioned in the legacy twiki
-    //   	  if (!analysisTree.electron_pass_conversion[ie] && applyLeptonId) continue;
-    //   	  if (analysisTree.electron_nmissinginnerhits[ie] > 1 && applyLeptonId) continue;
-    //       leptons.push_back(ie);
-    //     }
-    //   }
-    // 
-    //   if(ch == "mt"){
-    //     for (unsigned int im = 0; im < analysisTree.muon_count; ++im) {
-    //   	  bool muonMediumId = true;
-    //   	  if(applyMuonId) //2019 8 8: Merijn: impose that the flag from the config file is used
-    //   	    muonMediumId = isIdentifiedMediumMuon(im, &analysisTree, isData);	          
-    //       if (analysisTree.muon_pt[im] <= ptLeptonLowCut) continue;
-    //       if (fabs(analysisTree.muon_eta[im]) >= etaLeptonCut) continue;
-    //       if (fabs(analysisTree.muon_dxy[im]) >= dxyLeptonCut) continue;
-    //       if (fabs(analysisTree.muon_dz[im]) >= dzLeptonCut) continue;
-    //       if (!muonMediumId && applyLeptonId) continue;
-    //       leptons.push_back(im);
-    //       }
-    //   }
-    //   counter[4]++;
-    // 
-    // 
-    // 	if (leptons.size() == 0) continue;
-    //   if (taus.size() == 0) continue;
-    //   counter[5]++;
-    // 
-    //   // selecting electron and tau pair (OS or SS) or ditau pair;
-    //   int leptonIndex = -1;
-    //   int tauIndex = -1;
-    // 
-    //   float isoLepMin   = 1e+10;
-    //   float isoTauMax   = -1;      
-    //   float lep_pt_max  = -1;
-    //   float tau_pt_max  = -1;
-    // 
-    //   //////////////LOOP on Taus/////////////
-    // 
-    //   for (unsigned int it = 0; it < taus.size(); ++it) {
-    //     counter[6]++;
-    //   	unsigned int tIndex = taus.at(it);
-    // 
-    // 	//////////////LOOP on Leptons or second Tau/////////////
-    // 
-    //     for (unsigned int il = 0; il < leptons.size(); ++il) {
-    //       unsigned int lIndex = leptons.at(il);
-    // 
-    //       float lep_pt     = -9999.;
-    //       float lep_pt_max = -9999.;
-    //       float lep_eta    = -9999.;
-    //       float lep_phi    = -9999.;
-    //       float relIsoLep  = -9999.;
-    // 
-    //       if (ch == "mt")  relIsoLep = (abs_Iso_mt(lIndex, &analysisTree, dRiso) / analysisTree.muon_pt[lIndex] );
-    //       if (ch == "et")  relIsoLep = (abs_Iso_et(lIndex, &analysisTree, dRiso) / analysisTree.electron_pt[lIndex] );
-    // 
-    //       if(ch == "mt"){
-    //         lep_pt  = analysisTree.muon_pt[lIndex]; 
-    //         lep_eta = analysisTree.muon_eta[lIndex]; 
-    //         lep_phi = analysisTree.muon_phi[lIndex];
-    //       }
-    //       if(ch == "et"){         
-    //         lep_pt  = analysisTree.electron_pt[lIndex];
-    //         lep_eta = analysisTree.electron_eta[lIndex]; 
-    //         lep_phi = analysisTree.electron_phi[lIndex];
-    //       }
-    //       counter[7]++;
-    // 
-    //       float absIsoTau = analysisTree.tau_byIsolationMVArun2017v2DBoldDMwLTraw2017[tIndex];
-    //       float relIsoTau = absIsoTau / analysisTree.tau_pt[tIndex];
-    //       float dR = deltaR(analysisTree.tau_eta[tIndex], analysisTree.tau_phi[tIndex], lep_eta, lep_phi);
-    //       if (dR < dRleptonsCut) continue;
-    // 
-    //       // change pair
-    //       bool changePair =  false;
-    //       if (relIsoLep < isoLepMin)
-    //        changePair = true;
-    //       else if (fabs(relIsoLep - isoLepMin) < 1.e-5)
-    //        {
-    //              if (lep_pt > lep_pt_max)
-    //               changePair = true;
-    //              else if (fabs(lep_pt - lep_pt_max) < 1.e-5) 
-    //              {
-    //     	              if (absIsoTau > isoTauMax)
-    //                       changePair = true;
-    //     	              else if ((absIsoTau - isoTauMax) < 1.e-5)
-    //                     {
-    //     	                    if (analysisTree.tau_pt[tIndex] > tau_pt_max)
-    //                             changePair = true;
-    //     	              }
-    //              }
-    //         }
-    //       counter[8]++;
-    // 
-    //       if (changePair) {
-    //         isoLepMin = relIsoLep;
-    //         lep_pt_max = lep_pt;
-    //         tau_pt_max = analysisTree.tau_pt[tIndex];
-    //         leptonIndex = lIndex;
-    //         isoTauMax = absIsoTau;
-    //         tauIndex = tIndex;
-    //       }
-    //     } // lepton loop
-    //   } // tau loop
-    // 
+    
+      //lepton selection
+      vector<int> leptons; leptons.clear();
+      if(ch == "et"){
+        for (unsigned int ie = 0; ie<analysisTree.electron_count; ++ie) {
+          bool electronMvaId = analysisTree.electron_mva_wp80_Iso_Fall17_v1[ie];
+      	  // bool electronMvaId = analysisTree.electron_mva_wp80_general_Spring16_v1[ie];
+    
+          if (analysisTree.electron_pt[ie] <= ptLeptonLowCut) continue;
+          if (fabs(analysisTree.electron_eta[ie]) >= etaLeptonCut) continue;
+          if (fabs(analysisTree.electron_dxy[ie]) >= dxyLeptonCut) continue;
+      	  if (fabs(analysisTree.electron_dz[ie]) >= dzLeptonCut) continue;
+          if (!electronMvaId && applyLeptonId) continue;
+    
+      	  //Meirjn 2019 8 20: reinstated. They are mentioned in the legacy twiki
+      	  if (!analysisTree.electron_pass_conversion[ie] && applyLeptonId) continue;
+      	  if (analysisTree.electron_nmissinginnerhits[ie] > 1 && applyLeptonId) continue;
+          leptons.push_back(ie);
+        }
+      }
+    
+      if(ch == "mt"){
+        for (unsigned int im = 0; im < analysisTree.muon_count; ++im) {
+      	  bool muonMediumId = true;
+      	  if(applyMuonId) //2019 8 8: Merijn: impose that the flag from the config file is used
+      	    muonMediumId = isIdentifiedMediumMuon(im, &analysisTree, isData);	          
+          if (analysisTree.muon_pt[im] <= ptLeptonLowCut) continue;
+          if (fabs(analysisTree.muon_eta[im]) >= etaLeptonCut) continue;
+          if (fabs(analysisTree.muon_dxy[im]) >= dxyLeptonCut) continue;
+          if (fabs(analysisTree.muon_dz[im]) >= dzLeptonCut) continue;
+          if (!muonMediumId && applyLeptonId) continue;
+          leptons.push_back(im);
+          }
+      }
+      counter[4]++;
+    
+    
+    	if (leptons.size() == 0) continue;
+      if (taus.size() == 0) continue;
+      counter[5]++;
+    
+      // selecting electron and tau pair (OS or SS) or ditau pair;
+      int leptonIndex = -1;
+      int tauIndex = -1;
+    
+      float isoLepMin   = 1e+10;
+      float isoTauMax   = -1;      
+      float lep_pt_max  = -1;
+      float tau_pt_max  = -1;
+    
+      //////////////LOOP on Taus/////////////
+    
+      for (unsigned int it = 0; it < taus.size(); ++it) {
+        counter[6]++;
+      	unsigned int tIndex = taus.at(it);
+    
+    	//////////////LOOP on Leptons or second Tau/////////////
+    
+        for (unsigned int il = 0; il < leptons.size(); ++il) {
+          unsigned int lIndex = leptons.at(il);
+    
+          float lep_pt     = -9999.;
+          float lep_pt_max = -9999.;
+          float lep_eta    = -9999.;
+          float lep_phi    = -9999.;
+          float relIsoLep  = -9999.;
+    
+          if (ch == "mt")  relIsoLep = (abs_Iso_mt(lIndex, &analysisTree, dRiso) / analysisTree.muon_pt[lIndex] );
+          if (ch == "et")  relIsoLep = (abs_Iso_et(lIndex, &analysisTree, dRiso) / analysisTree.electron_pt[lIndex] );
+    
+          if(ch == "mt"){
+            lep_pt  = analysisTree.muon_pt[lIndex]; 
+            lep_eta = analysisTree.muon_eta[lIndex]; 
+            lep_phi = analysisTree.muon_phi[lIndex];
+          }
+          if(ch == "et"){         
+            lep_pt  = analysisTree.electron_pt[lIndex];
+            lep_eta = analysisTree.electron_eta[lIndex]; 
+            lep_phi = analysisTree.electron_phi[lIndex];
+          }
+          counter[7]++;
+    
+          float absIsoTau = analysisTree.tau_byIsolationMVArun2017v2DBoldDMwLTraw2017[tIndex];
+          float relIsoTau = absIsoTau / analysisTree.tau_pt[tIndex];
+          float dR = deltaR(analysisTree.tau_eta[tIndex], analysisTree.tau_phi[tIndex], lep_eta, lep_phi);
+          if (dR < dRleptonsCut) continue;
+    
+          // change pair
+          bool changePair =  false;
+          if (relIsoLep < isoLepMin)
+           changePair = true;
+          else if (fabs(relIsoLep - isoLepMin) < 1.e-5)
+           {
+                 if (lep_pt > lep_pt_max)
+                  changePair = true;
+                 else if (fabs(lep_pt - lep_pt_max) < 1.e-5) 
+                 {
+        	              if (absIsoTau > isoTauMax)
+                          changePair = true;
+        	              else if ((absIsoTau - isoTauMax) < 1.e-5)
+                        {
+        	                    if (analysisTree.tau_pt[tIndex] > tau_pt_max)
+                                changePair = true;
+        	              }
+                 }
+            }
+          counter[8]++;
+    
+          if (changePair) {
+            isoLepMin = relIsoLep;
+            lep_pt_max = lep_pt;
+            tau_pt_max = analysisTree.tau_pt[tIndex];
+            leptonIndex = lIndex;
+            isoTauMax = absIsoTau;
+            tauIndex = tIndex;
+          }
+        } // lepton loop
+      } // tau loop
+    
     //   if (leptonIndex < 0) continue;
     //   if (tauIndex < 0) continue;
     //   counter[9]++;
