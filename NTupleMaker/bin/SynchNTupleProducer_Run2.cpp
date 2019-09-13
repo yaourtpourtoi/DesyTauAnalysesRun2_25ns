@@ -630,47 +630,47 @@ int main(int argc, char * argv[]){
       otree->lumi = analysisTree.event_luminosityblock;
       otree->evt  = analysisTree.event_nr;
     
-    //   bool overlapEvent = true;
-    //   for (unsigned int iEvent = 0; iEvent < runList.size(); ++iEvent) {
-    //   	if (runList.at(iEvent) == otree->run && eventList.at(iEvent) == otree->evt) {
-    //   	  overlapEvent = false;	  
-    //   	}
-    //   }
-    // 
-    //   if (overlapEvent && checkOverlap) continue;
-    //   nonOverlap++;
-    //   counter[2]++;
-    // 
-    //   if (isData && !isGoodLumi(otree->run, otree->lumi, json))
-    //   	continue;
-    // 
-    //   initializeGenTree(gentree);
-    // 
-    //    // weights
-    //   if(ApplyPUweight) fill_weight(&analysisTree, otree, PUofficial, isData);
-    // 
-    //   otree->npv = analysisTree.primvertex_count;
-    //   otree->npu = analysisTree.numtruepileupinteractions;// numpileupinteractions;
-    //   otree->rho = analysisTree.rho;
-    // 
-    //   // tau selection
-    //   vector<int> taus; taus.clear();
-    //   for (unsigned int it = 0; it<analysisTree.tau_count; ++it) { 
-    //     if (analysisTree.tau_pt[it] <= ptTauLowCut) continue;
-    //     if (fabs(analysisTree.tau_eta[it]) >= etaTauCut) continue;
-    //     if (fabs(fabs(analysisTree.tau_charge[it]) - 1) > 0.001) continue;
-    //     if (fabs(analysisTree.tau_leadchargedhadrcand_dz[it]) >= dzTauCut) continue;
-    // 
-    //   	if (analysisTree.tau_byVVLooseIsolationMVArun2017v2DBoldDMwLT2017[it] < 0.5) continue;
-    //   	//merijn 2019 8 8: apply here all criteria on the tau selection. 
-    //   //	if (analysisTree.tau_byTightIsolationMVArun2017v2DBoldDMwLT2017[it] < 0.5) continue;//tight tau mva. But we will apply this only in the DNN NTupler, it is better to do the cut there for ease of computing the fake fractions
-    //   	if (analysisTree.tau_againstMuonTight3[it] < 0.5) continue;//tight mva aginst muon
-    //   	if (analysisTree.tau_againstElectronVLooseMVA6[it] < 0.5) continue;//very loose mva agaist e
-    // 
-    //     if (applyTauId && analysisTree.tau_decayModeFinding[it] < 0.5) continue;
-    //     taus.push_back(it);
-    //   }
-    //   counter[3]++;
+      bool overlapEvent = true;
+      for (unsigned int iEvent = 0; iEvent < runList.size(); ++iEvent) {
+      	if (runList.at(iEvent) == otree->run && eventList.at(iEvent) == otree->evt) {
+      	  overlapEvent = false;	  
+      	}
+      }
+    
+      if (overlapEvent && checkOverlap) continue;
+      nonOverlap++;
+      counter[2]++;
+    
+      if (isData && !isGoodLumi(otree->run, otree->lumi, json))
+      	continue;
+    
+      initializeGenTree(gentree);
+    
+       // weights
+      if(ApplyPUweight) fill_weight(&analysisTree, otree, PUofficial, isData);
+    
+      otree->npv = analysisTree.primvertex_count;
+      otree->npu = analysisTree.numtruepileupinteractions;// numpileupinteractions;
+      otree->rho = analysisTree.rho;
+    
+      // tau selection
+      vector<int> taus; taus.clear();
+      for (unsigned int it = 0; it<analysisTree.tau_count; ++it) { 
+        if (analysisTree.tau_pt[it] <= ptTauLowCut) continue;
+        if (fabs(analysisTree.tau_eta[it]) >= etaTauCut) continue;
+        if (fabs(fabs(analysisTree.tau_charge[it]) - 1) > 0.001) continue;
+        if (fabs(analysisTree.tau_leadchargedhadrcand_dz[it]) >= dzTauCut) continue;
+    
+      	if (analysisTree.tau_byVVLooseIsolationMVArun2017v2DBoldDMwLT2017[it] < 0.5) continue;
+      	//merijn 2019 8 8: apply here all criteria on the tau selection. 
+      //	if (analysisTree.tau_byTightIsolationMVArun2017v2DBoldDMwLT2017[it] < 0.5) continue;//tight tau mva. But we will apply this only in the DNN NTupler, it is better to do the cut there for ease of computing the fake fractions
+      	if (analysisTree.tau_againstMuonTight3[it] < 0.5) continue;//tight mva aginst muon
+      	if (analysisTree.tau_againstElectronVLooseMVA6[it] < 0.5) continue;//very loose mva agaist e
+    
+        if (applyTauId && analysisTree.tau_decayModeFinding[it] < 0.5) continue;
+        taus.push_back(it);
+      }
+      counter[3]++;
     // 
     //   //lepton selection
     //   vector<int> leptons; leptons.clear();
