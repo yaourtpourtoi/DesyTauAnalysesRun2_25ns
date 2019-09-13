@@ -954,41 +954,41 @@ int main(int argc, char * argv[]){
       otree->effweight = otree->idisoweight_1 * otree->trkeffweight * otree->idisoweight_2 * otree->trigweight;
       otree->weight = otree->effweight * otree->puweight * otree->mcweight; 
     
-      // //counting jet
-      // jets::counting_jets(&analysisTree, otree, &cfg, &inputs_btag_scaling_medium);
-      // //MET
-      // //Merijn 2019 6 20: overloaded the function, it takes the era as arugment now, to take pfmetcorr for 2016 and 2017..
-      // fillMET(ch, leptonIndex, tauIndex, &analysisTree, otree, cfg.get<int>("era"));
-      // 
-      // TLorentzVector genV( 0., 0., 0., 0.);
-      // TLorentzVector genL( 0., 0., 0., 0.);
-      // 
-      // // Zpt weight
-      // otree->zptweight = 1.;
-      // if (!isData && ((isDY && isMG ) || isEWKZ)){
-      //   genV = genTools::genV(analysisTree); // gen Z boson ?
-      // 	float bosonMass = genV.M();
-      // 	float bosonPt = genV.Pt();
-      // 
-      //   //Merijn determine here some min and max values:
-      //   double massxmin = h_zptweight->GetXaxis()->GetXmin();
-      //   double massxmax = h_zptweight->GetXaxis()->GetXmax();
-      // 
-      //   double ptxmin = h_zptweight->GetYaxis()->GetXmin();
-      //   double ptxmax = h_zptweight->GetYaxis()->GetXmax();
-      // 
-      // 	//Merijn 2019 6 13: adjust to T/M functions, to get boundaries right. Otherwise, for 2017 data we get few outliers that screw up the weight histogram dramatically.
-      // 	Float_t zptmassweight = 1;
-      // 	if (bosonMass > 50.0) {
-      //     float bosonMassX = bosonMass;
-      //     float bosonPtX = bosonPt;
-      //     if (bosonMassX > massxmax) bosonMassX = massxmax - h_zptweight->GetXaxis()->GetBinWidth(h_zptweight->GetYaxis()->GetNbins())*0.5;//Merijn: if doesn't work, lower by 1/2 binwidth..
-      //     if (bosonPtX < ptxmin)     bosonPtX = ptxmin + h_zptweight->GetYaxis()->GetBinWidth(1)*0.5;
-      //     if (bosonPtX > ptxmax)     bosonPtX = ptxmax - h_zptweight->GetYaxis()->GetBinWidth(h_zptweight->GetYaxis()->GetNbins())*0.5;
-      //     zptmassweight = h_zptweight->GetBinContent(h_zptweight->GetXaxis()->FindBin(bosonMassX), h_zptweight->GetYaxis()->FindBin(bosonPtX));
-      //     }	
-      //     otree->zptweight = zptmassweight;
-      // }
+      //counting jet
+      jets::counting_jets(&analysisTree, otree, &cfg, &inputs_btag_scaling_medium);
+      //MET
+      //Merijn 2019 6 20: overloaded the function, it takes the era as arugment now, to take pfmetcorr for 2016 and 2017..
+      fillMET(ch, leptonIndex, tauIndex, &analysisTree, otree, cfg.get<int>("era"));
+      
+      TLorentzVector genV( 0., 0., 0., 0.);
+      TLorentzVector genL( 0., 0., 0., 0.);
+      
+      // Zpt weight
+      otree->zptweight = 1.;
+      if (!isData && ((isDY && isMG ) || isEWKZ)){
+        genV = genTools::genV(analysisTree); // gen Z boson ?
+      	float bosonMass = genV.M();
+      	float bosonPt = genV.Pt();
+      
+        //Merijn determine here some min and max values:
+        double massxmin = h_zptweight->GetXaxis()->GetXmin();
+        double massxmax = h_zptweight->GetXaxis()->GetXmax();
+      
+        double ptxmin = h_zptweight->GetYaxis()->GetXmin();
+        double ptxmax = h_zptweight->GetYaxis()->GetXmax();
+      
+      	//Merijn 2019 6 13: adjust to T/M functions, to get boundaries right. Otherwise, for 2017 data we get few outliers that screw up the weight histogram dramatically.
+      	Float_t zptmassweight = 1;
+      	if (bosonMass > 50.0) {
+          float bosonMassX = bosonMass;
+          float bosonPtX = bosonPt;
+          if (bosonMassX > massxmax) bosonMassX = massxmax - h_zptweight->GetXaxis()->GetBinWidth(h_zptweight->GetYaxis()->GetNbins())*0.5;//Merijn: if doesn't work, lower by 1/2 binwidth..
+          if (bosonPtX < ptxmin)     bosonPtX = ptxmin + h_zptweight->GetYaxis()->GetBinWidth(1)*0.5;
+          if (bosonPtX > ptxmax)     bosonPtX = ptxmax - h_zptweight->GetYaxis()->GetBinWidth(h_zptweight->GetYaxis()->GetNbins())*0.5;
+          zptmassweight = h_zptweight->GetBinContent(h_zptweight->GetXaxis()->FindBin(bosonMassX), h_zptweight->GetYaxis()->FindBin(bosonPtX));
+          }	
+          otree->zptweight = zptmassweight;
+      }
       // 
       // // topPt weight
       // otree->topptweight = 1.;
