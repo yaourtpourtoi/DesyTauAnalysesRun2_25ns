@@ -985,7 +985,7 @@ int main(int argc, char * argv[]){
           float bosonMassX = bosonMass;
           float bosonPtX = bosonPt;
           
-          std::cout << "HERE I AM [1]" << std::endl;
+          std::cout << "HERE I AM [1]" << massxmax << "    " << h_zptweight->GetYaxis()->GetNbins() << std::endl;
           
           if (bosonMassX > massxmax) bosonMassX = massxmax - h_zptweight->GetXaxis()->GetBinWidth(h_zptweight->GetYaxis()->GetNbins())*0.5;//Merijn: if doesn't work, lower by 1/2 binwidth..
           
