@@ -874,86 +874,86 @@ int main(int argc, char * argv[]){
       otree->xTriggerTau = isXTrigTau;
       otree->xTrigger = isXTrig;
     
-    // 
-    //   //filling variables
-    //   TLorentzVector leptonLV;
-    // 
-    //   // used for trigger weights
-    //   double eff_data_trig_lt_tau = 1;
-    //   double eff_mc_trig_lt_tau   = 1;
-    //   double eff_data_trig_lt_l   = 1;
-    //   double eff_mc_trig_lt_l     = 1;
-    //   double eff_data_trig_L      = 1;
-    //   double eff_mc_trig_L        = 1;
-    //   double sf_trig_ditau_tau1   = 1;
-    //   double sf_trig_ditau_tau2   = 1;
-    //   // reset efficiency weights
-    // 
-    //   //all criterua passed, we fill vertices here;	
-    //   SaveRECOVertices(&analysisTree,otree, isData);
-    // 
-    //   //Merijn: save here all gen information for the selected RECO events, gets stored for convenience in the taucheck tree ;-). Note that no selection on gen level is applied..     
-    //   //Merijn 2019 4 3:note that a separate fill is not needed. We store in the otree now, which is Filled at the bottom! Filling here will make things out of synch..
-    //   if (!isData)
-    //     FillGenTree(&analysisTree, gentreeForGoodRecoEvtsOnly);       
-    // 
-    //   if(ch == "mt") {
-    //   	FillMuTau(&analysisTree, otree, leptonIndex, dRiso);
-    //     leptonLV.SetXYZM(analysisTree.muon_px[leptonIndex], analysisTree.muon_py[leptonIndex], analysisTree.muon_pz[leptonIndex], muonMass);
-    // 
-    //   	// tracking efficiency weight	
-    //     if (!isData && ApplyLepSF) {
-    //        w->var("m_eta")->setVal(analysisTree.muon_eta[leptonIndex]); 
-    //        otree->trkeffweight = (double)(w->function("m_trk_ratio")->getVal());
-    //     }
-    //   } 
-    //   else if(ch == "et"){
-    //   	FillETau(&analysisTree, otree, leptonIndex, dRiso);
-    //     leptonLV.SetXYZM(analysisTree.electron_px[leptonIndex], analysisTree.electron_py[leptonIndex], analysisTree.electron_pz[leptonIndex], electronMass);
-    // 
-    //     // tracking efficiency weight
-    //     if (!isData && ApplyLepSF) {
-    //   	  w->var("e_eta")->setVal(analysisTree.electron_eta[leptonIndex]); 
-    //   	  w->var("e_pt")->setVal(analysisTree.electron_pt[leptonIndex]); 	
-    //   	  otree->trkeffweight = (double)( w->function("e_reco_ratio")->getVal());
-    //      }
-    //   }
-    // 
-    //   if (!isData && ApplyLepSF) {
-    // 	  if (ch == "mt") {
-    // 	    eff_data_trig_lt_tau = tauTriggerSF->getMuTauEfficiencyData(analysisTree.tau_pt[tauIndex], analysisTree.tau_eta[tauIndex], analysisTree.tau_phi[tauIndex]);
-    // 	    eff_mc_trig_lt_tau = tauTriggerSF->getMuTauEfficiencyMC(analysisTree.tau_pt[tauIndex], analysisTree.tau_eta[tauIndex], analysisTree.tau_phi[tauIndex]);
-    // 	  }
-    // 	  else {
-    // 	    eff_data_trig_lt_tau = tauTriggerSF->getETauEfficiencyData(analysisTree.tau_pt[tauIndex], analysisTree.tau_eta[tauIndex], analysisTree.tau_phi[tauIndex]);
-    // 	    eff_mc_trig_lt_tau = tauTriggerSF->getETauEfficiencyMC(analysisTree.tau_pt[tauIndex], analysisTree.tau_eta[tauIndex], analysisTree.tau_phi[tauIndex]);
-    // 	  }
-    // 
-    // 	  eff_data_trig_lt_l = SF_XTriggerLepLeg->get_EfficiencyData(leptonLV.Pt(), leptonLV.Eta());
-    // 	  eff_mc_trig_lt_l = SF_XTriggerLepLeg->get_EfficiencyMC(leptonLV.Pt(), leptonLV.Eta());
-    // 	  eff_data_trig_L = SF_SingleLepTrigger->get_EfficiencyData(leptonLV.Pt(), leptonLV.Eta());
-    // 	  eff_mc_trig_L = SF_SingleLepTrigger->get_EfficiencyData(leptonLV.Pt(), leptonLV.Eta());
-    // 
-    // 	  otree->idisoweight_1 = SF_lepIdIso->get_ScaleFactor(leptonLV.Pt(), leptonLV.Eta());
-    // 	  otree->idisoweight_antiiso_1 = SF_lepIdIso_antiiso->get_ScaleFactor(leptonLV.Pt(), leptonLV.Eta());
-    // 	  otree->trigweight_1 = SF_SingleLepTrigger->get_ScaleFactor(leptonLV.Pt(), leptonLV.Eta());
-    // 	  otree->trigweight_antiiso_1 = SF_SingleLepTrigger_antiiso->get_ScaleFactor(leptonLV.Pt(), leptonLV.Eta());
-    // 
-    // 	  double eff_data_trig = eff_data_trig_L + (eff_data_trig_lt_l - eff_data_trig_L) * eff_data_trig_lt_tau;
-    // 	  double eff_mc_trig = eff_mc_trig_L + (eff_mc_trig_lt_l - eff_mc_trig_L) * eff_mc_trig_lt_tau;
-    // 
-    // 	  if (eff_data_trig > 1e-4 && eff_mc_trig > 1e-4)
-    // 	    otree->trigweight = eff_data_trig / eff_mc_trig;
-    //   }
-    //   counter[10]++;
-    // 
-    //   FillTau(&analysisTree, otree, tauIndex);
-    // 
-    //   if (!isData && analysisTree.tau_genmatch[tauIndex] == 5) otree->idisoweight_2 = tau_id_sf; 
-    // 
-    //   otree->effweight = otree->idisoweight_1 * otree->trkeffweight * otree->idisoweight_2 * otree->trigweight;
-    //   otree->weight = otree->effweight * otree->puweight * otree->mcweight; 
-    // 
+    
+      //filling variables
+      TLorentzVector leptonLV;
+    
+      // used for trigger weights
+      double eff_data_trig_lt_tau = 1;
+      double eff_mc_trig_lt_tau   = 1;
+      double eff_data_trig_lt_l   = 1;
+      double eff_mc_trig_lt_l     = 1;
+      double eff_data_trig_L      = 1;
+      double eff_mc_trig_L        = 1;
+      double sf_trig_ditau_tau1   = 1;
+      double sf_trig_ditau_tau2   = 1;
+      // reset efficiency weights
+    
+      //all criterua passed, we fill vertices here;	
+      SaveRECOVertices(&analysisTree,otree, isData);
+    
+      //Merijn: save here all gen information for the selected RECO events, gets stored for convenience in the taucheck tree ;-). Note that no selection on gen level is applied..     
+      //Merijn 2019 4 3:note that a separate fill is not needed. We store in the otree now, which is Filled at the bottom! Filling here will make things out of synch..
+      if (!isData)
+        FillGenTree(&analysisTree, gentreeForGoodRecoEvtsOnly);       
+    
+      if(ch == "mt") {
+      	FillMuTau(&analysisTree, otree, leptonIndex, dRiso);
+        leptonLV.SetXYZM(analysisTree.muon_px[leptonIndex], analysisTree.muon_py[leptonIndex], analysisTree.muon_pz[leptonIndex], muonMass);
+    
+      	// tracking efficiency weight	
+        if (!isData && ApplyLepSF) {
+           w->var("m_eta")->setVal(analysisTree.muon_eta[leptonIndex]); 
+           otree->trkeffweight = (double)(w->function("m_trk_ratio")->getVal());
+        }
+      } 
+      else if(ch == "et"){
+      	FillETau(&analysisTree, otree, leptonIndex, dRiso);
+        leptonLV.SetXYZM(analysisTree.electron_px[leptonIndex], analysisTree.electron_py[leptonIndex], analysisTree.electron_pz[leptonIndex], electronMass);
+    
+        // tracking efficiency weight
+        if (!isData && ApplyLepSF) {
+      	  w->var("e_eta")->setVal(analysisTree.electron_eta[leptonIndex]); 
+      	  w->var("e_pt")->setVal(analysisTree.electron_pt[leptonIndex]); 	
+      	  otree->trkeffweight = (double)( w->function("e_reco_ratio")->getVal());
+         }
+      }
+    
+      if (!isData && ApplyLepSF) {
+    	  if (ch == "mt") {
+    	    eff_data_trig_lt_tau = tauTriggerSF->getMuTauEfficiencyData(analysisTree.tau_pt[tauIndex], analysisTree.tau_eta[tauIndex], analysisTree.tau_phi[tauIndex]);
+    	    eff_mc_trig_lt_tau = tauTriggerSF->getMuTauEfficiencyMC(analysisTree.tau_pt[tauIndex], analysisTree.tau_eta[tauIndex], analysisTree.tau_phi[tauIndex]);
+    	  }
+    	  else {
+    	    eff_data_trig_lt_tau = tauTriggerSF->getETauEfficiencyData(analysisTree.tau_pt[tauIndex], analysisTree.tau_eta[tauIndex], analysisTree.tau_phi[tauIndex]);
+    	    eff_mc_trig_lt_tau = tauTriggerSF->getETauEfficiencyMC(analysisTree.tau_pt[tauIndex], analysisTree.tau_eta[tauIndex], analysisTree.tau_phi[tauIndex]);
+    	  }
+    
+    	  eff_data_trig_lt_l = SF_XTriggerLepLeg->get_EfficiencyData(leptonLV.Pt(), leptonLV.Eta());
+    	  eff_mc_trig_lt_l = SF_XTriggerLepLeg->get_EfficiencyMC(leptonLV.Pt(), leptonLV.Eta());
+    	  eff_data_trig_L = SF_SingleLepTrigger->get_EfficiencyData(leptonLV.Pt(), leptonLV.Eta());
+    	  eff_mc_trig_L = SF_SingleLepTrigger->get_EfficiencyData(leptonLV.Pt(), leptonLV.Eta());
+    
+    	  otree->idisoweight_1 = SF_lepIdIso->get_ScaleFactor(leptonLV.Pt(), leptonLV.Eta());
+    	  otree->idisoweight_antiiso_1 = SF_lepIdIso_antiiso->get_ScaleFactor(leptonLV.Pt(), leptonLV.Eta());
+    	  otree->trigweight_1 = SF_SingleLepTrigger->get_ScaleFactor(leptonLV.Pt(), leptonLV.Eta());
+    	  otree->trigweight_antiiso_1 = SF_SingleLepTrigger_antiiso->get_ScaleFactor(leptonLV.Pt(), leptonLV.Eta());
+    
+    	  double eff_data_trig = eff_data_trig_L + (eff_data_trig_lt_l - eff_data_trig_L) * eff_data_trig_lt_tau;
+    	  double eff_mc_trig = eff_mc_trig_L + (eff_mc_trig_lt_l - eff_mc_trig_L) * eff_mc_trig_lt_tau;
+    
+    	  if (eff_data_trig > 1e-4 && eff_mc_trig > 1e-4)
+    	    otree->trigweight = eff_data_trig / eff_mc_trig;
+      }
+      counter[10]++;
+    
+      FillTau(&analysisTree, otree, tauIndex);
+    
+      if (!isData && analysisTree.tau_genmatch[tauIndex] == 5) otree->idisoweight_2 = tau_id_sf; 
+    
+      otree->effweight = otree->idisoweight_1 * otree->trkeffweight * otree->idisoweight_2 * otree->trigweight;
+      otree->weight = otree->effweight * otree->puweight * otree->mcweight; 
+    
     //   //counting jet
     //   jets::counting_jets(&analysisTree, otree, &cfg, &inputs_btag_scaling_medium);
     //   //MET
