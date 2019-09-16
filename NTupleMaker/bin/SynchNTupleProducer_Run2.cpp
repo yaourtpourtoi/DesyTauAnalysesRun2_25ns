@@ -1009,26 +1009,26 @@ int main(int argc, char * argv[]){
       	}
       }
     
-      // ////////////////////////////////////////////////////////////
-      // // MET Recoil Corrections
-      // ////////////////////////////////////////////////////////////
-      // 
-      // otree->njetshad = otree->njets;
-      // if (!isData && applyRecoilCorrections && (isDY || isWJets || isVBForGGHiggs || isMSSMsignal) ){
-      // 	genV = genTools::genV(analysisTree);
-      // 	genL = genTools::genL(analysisTree);
-      // 	if(isWJets) otree->njetshad += 1;
-      // }
-      // 
-      // // PF MET
-      // genTools::RecoilCorrections( *recoilPFMetCorrector, 
-  		// 	   (!isData && applyRecoilCorrections && (isDY || isWJets || isVBForGGHiggs || isMSSMsignal)) * genTools::MeanResolution,
-  		// 	   otree->met, otree->metphi,
-  		// 	   genV.Px(), genV.Py(),
-  		// 	   genL.Px(), genL.Py(),
-  		// 	   otree->njetshad,
-  		// 	   otree->met_rcmr, otree->metphi_rcmr
-  		// 	   );
+      ////////////////////////////////////////////////////////////
+      // MET Recoil Corrections
+      ////////////////////////////////////////////////////////////
+      
+      otree->njetshad = otree->njets;
+      if (!isData && applyRecoilCorrections && (isDY || isWJets || isVBForGGHiggs || isMSSMsignal) ){
+      	genV = genTools::genV(analysisTree);
+      	genL = genTools::genL(analysisTree);
+      	if(isWJets) otree->njetshad += 1;
+      }
+      
+      // PF MET
+      genTools::RecoilCorrections( *recoilPFMetCorrector, 
+  			   (!isData && applyRecoilCorrections && (isDY || isWJets || isVBForGGHiggs || isMSSMsignal)) * genTools::MeanResolution,
+  			   otree->met, otree->metphi,
+  			   genV.Px(), genV.Py(),
+  			   genL.Px(), genL.Py(),
+  			   otree->njetshad,
+  			   otree->met_rcmr, otree->metphi_rcmr
+  			   );
     
       // overwriting with recoil-corrected values 
       otree->met = otree->met_rcmr;
