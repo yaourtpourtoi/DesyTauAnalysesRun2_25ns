@@ -832,8 +832,8 @@ int main(int argc, char * argv[]){
       otree->idisoweight_2 = 1;
     
       for (unsigned int iT = 0; iT < analysisTree.trigobject_count; ++iT) {
-         float dRtrigLep = deltaR(lep_eta, lep_phi, analysisTree.trigobject_eta[iT],analysisTree.trigobject_phi[iT]);        
-         float dRtrigTau = deltaR(analysisTree.tau_eta[tauIndex], analysisTree.tau_phi[tauIndex], analysisTree.trigobject_eta[iT],analysisTree.trigobject_phi[iT]);        
+         float dRtrigLep = deltaR(lep_eta, lep_phi, analysisTree.trigobject_eta[iT], analysisTree.trigobject_phi[iT]);        
+         float dRtrigTau = deltaR(analysisTree.tau_eta[tauIndex], analysisTree.tau_phi[tauIndex], analysisTree.trigobject_eta[iT], analysisTree.trigobject_phi[iT]);        
     
          if (dRtrigLep < deltaRTrigMatch){
            for(unsigned int i_trig = 0; i_trig < filterSingleLep.size(); i_trig++)
@@ -856,9 +856,9 @@ int main(int argc, char * argv[]){
          }	  
       }
     
-      for(unsigned int i_trig = 0; i_trig<filterXtriggerTauLeg.size(); i_trig++)
+      for(unsigned int i_trig = 0; i_trig < filterXtriggerTauLeg.size(); i_trig++)
         isXTrigTau = isXTrigTau && isXTrigTauLeg.at(i_trig);
-      for(unsigned int i_trig = 0; i_trig<filterXtriggerLepLeg.size(); i_trig++)
+      for(unsigned int i_trig = 0; i_trig < filterXtriggerLepLeg.size(); i_trig++)
         isXTrigLep = isXTrigLep && isXTrigLepLeg.at(i_trig);
       isXTrig = isXTrigTau && isXTrigLep;
     
