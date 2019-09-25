@@ -660,7 +660,7 @@ for (Long64_t iEntry=0; iEntry<numberOfEntries; iEntry++) {
 
 
       //Skip events not passing the MET filters, if applied
-      if (ApplyMetFilters && !passedAllMetFilters(&analysisTree, met_filters_list, isData)) continue;
+      if (ApplyMetFilters && !passedAllMetFilters(&analysisTree, met_filters_list)) continue;
       counter[1]++;
 
       // Check if all triggers are existent in each event and save index
