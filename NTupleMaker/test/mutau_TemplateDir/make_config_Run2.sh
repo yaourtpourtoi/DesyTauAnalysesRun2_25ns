@@ -2,7 +2,6 @@
 
 ### Important:
 ### the script is to be run with "bash make_config_Run2.sh"
-###
 
 YEAR=$1
 DATA_TYPE=$2
@@ -20,7 +19,7 @@ KEY_LIST=(isData ApplyPUweight ApplyLepSF)
 VALUE_LIST_MC=(false true true)
 VALUE_LIST_DATA=(true false false)
 
-# these parameters are year dependant for MC, so leave them as they are in the config and set to 0 only if it is data
+# these parameters are year dependant for MC, so leave them as they are in the config and set to 0 only if it is data config
 if [[ $DATA_TYPE == "data" ]]; then
   KEY_LIST+=(TauEnergyScaleShift_OneProng TauEnergyScaleShift_OneProngOnePi0 TauEnergyScaleShift_ThreeProng)
   VALUE_LIST_DATA+=(0.0 0.0 0.0)
@@ -32,20 +31,28 @@ fi
 # redefine list of this parameters according to the input data type
 if [[ $DATA_TYPE == "data" ]]; then
   VALUE_LIST=("${VALUE_LIST_DATA[@]}")
+  NOT_DATA_TYPE="MC"
 else
   if [[ $DATA_TYPE == "MC" ]]; then
     VALUE_LIST=("${VALUE_LIST_MC[@]}")
+    NOT_DATA_TYPE="data"
   else
     echo "data_type is neither data or MC - exiting"
     exit
   fi
 fi
 
-# add the KEY_LIST parameters
+# add the KEY_LIST parameters to the config
 KEY_LEN=${#KEY_LIST[@]}
 for (( i = 0; i < $KEY_LEN; i++ )); do
         printf '/%s/c\%s\n' "${KEY_LIST[i]} =*" "${KEY_LIST[i]} = ${VALUE_LIST[i]}"
 done | sed -r -f- $TEMPLATE_CFG_NAME.conf > ${TEMPLATE_CFG_NAME}_${DATA_TYPE}.conf
+
+# remove all the lines which starts with "NOT_DATA_TYPE: " 
+sed -i "/${NOT_DATA_TYPE}: /d" ./${TEMPLATE_CFG_NAME}_${DATA_TYPE}.conf
+
+# remove just the strings "DATA_TYPE: " leaving the rest of the line intact 
+sed -i "s/${DATA_TYPE}: //" ./${TEMPLATE_CFG_NAME}_${DATA_TYPE}.conf
 
 # echo "Name of config: $TEMPLATE_CFG_NAME"
 # echo "is data?: $IS_DATA"
