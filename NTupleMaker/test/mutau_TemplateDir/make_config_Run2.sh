@@ -28,7 +28,7 @@ if [[ $DATA_TYPE == "data" ]]; then
   VALUE_LIST_DATA+=(0.0 0.0 0.0)
 fi
 
-# redefine list of this parameters according to the input data type
+# redefine list of the parameters according to the input data type
 if [[ $DATA_TYPE == "data" ]]; then
   VALUE_LIST=("${VALUE_LIST_DATA[@]}")
   NOT_DATA_TYPE="MC"
@@ -42,7 +42,7 @@ else
   fi
 fi
 
-# add the KEY_LIST parameters to the config
+# add the parameters to the config
 KEY_LEN=${#KEY_LIST[@]}
 for (( i = 0; i < $KEY_LEN; i++ )); do
         printf '/%s/c\%s\n' "${KEY_LIST[i]} =*" "${KEY_LIST[i]} = ${VALUE_LIST[i]}"

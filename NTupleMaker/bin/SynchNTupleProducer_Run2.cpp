@@ -521,7 +521,7 @@ int main(int argc, char * argv[]){
     }    
   }
 
-  // list of met filters ( https://twiki.cern.ch/twiki/bin/viewauth/CMS/MissingETOptionalFiltersRun2 )
+  // list of met filters from config
   std::vector<TString> met_filters_list;
   for (unsigned int i = 1; i < (unsigned int) cfg.get<int>("num_met_filters") + 1; i++) {
     met_filters_list.push_back(cfg.get<string>("met_filter_" + std::to_string(i)));
