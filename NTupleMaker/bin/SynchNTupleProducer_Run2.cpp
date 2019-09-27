@@ -526,7 +526,7 @@ int main(int argc, char * argv[]){
   for (unsigned int i = 1; i < (unsigned int) cfg.get<int>("num_met_filters") + 1; i++) {
     met_filters_list.push_back(cfg.get<string>("met_filter_" + std::to_string(i)));
   }
-  int counter[20];
+  int counter[20] = {0};
 
   ///////////////FILE LOOP///////////////
 
