@@ -604,7 +604,7 @@ int main(int argc, char * argv[]){
     met_filters_list.push_back("ecalBadCalibReducedMINIAODFilter"); //WAS NOT IN LIST ABOVE
   
   
-  int counter[20];
+  int counter[20] = {0};
 
   ///////////////FILE LOOP///////////////
 
