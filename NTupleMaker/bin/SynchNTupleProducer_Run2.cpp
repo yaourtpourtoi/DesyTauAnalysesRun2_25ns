@@ -142,7 +142,6 @@ int main(int argc, char * argv[]){
   const bool ApplyBTagScaling = cfg.get<bool>("ApplyBTagScaling");
   const bool ApplySystShift   = cfg.get<bool>("ApplySystShift");
   const bool ApplyMetFilters  = cfg.get<bool>("ApplyMetFilters");
-  const bool ApplyRun1topPtWeights  = cfg.get<bool>("ApplyRun1topPtWeights");
 
   //pileup distrib
   const string pileUpInDataFile = cfg.get<string>("pileUpInDataFile");
@@ -316,11 +315,7 @@ int main(int argc, char * argv[]){
   
   // **** end of configuration analysis
 
-  unsigned int lhc_run_era = 2;
-  if (ApplyRun1topPtWeights) lhc_run_era = 1;
-
   //file list creation
-
   int ifile = 0;
   int jfile = -1;
 
@@ -969,9 +964,10 @@ int main(int argc, char * argv[]){
       
       // topPt weight
       otree->topptweight = 1.;
-      if(!isData){
-         otree->topptweight = genTools::topPtWeight(analysisTree, lhc_run_era);
-      }
+      int a_topPtWeight = cfg.get<int>("a_topPtWeight");
+      int b_topPtWeight = cfg.get<int>("b_topPtWeight");
+      if(!isData)
+         otree->topptweight = genTools::return_topPtWeight(analysisTree, a_topPtWeight, b_topPtWeight);
       counter[11]++;
       
       // lepton tau fakerates
