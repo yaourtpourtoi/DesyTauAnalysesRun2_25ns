@@ -967,8 +967,8 @@ int main(int argc, char * argv[]){
       int a_topPtWeight = cfg.get<int>("a_topPtWeight");
       int b_topPtWeight = cfg.get<int>("b_topPtWeight");
       if(!isData)
-         otree->topptweight = genTools::return_topPtWeight(analysisTree, a_topPtWeight, b_topPtWeight);
-         // otree->topptweight = genTools::topPtWeight(analysisTree, 1);
+         // otree->topptweight = genTools::return_topPtWeight(analysisTree, a_topPtWeight, b_topPtWeight);
+         otree->topptweight = genTools::topPtWeight(analysisTree, 1); // 1 is for Run1 - use this reweighting as recommended
       counter[11]++;
       
       // lepton tau fakerates
