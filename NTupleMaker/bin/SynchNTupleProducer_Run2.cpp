@@ -218,11 +218,10 @@ int main(int argc, char * argv[]){
   
   if(!isData && ApplyRecoilCorrections && (isDY || isWJets || isVBForGGHiggs || isMSSMsignal) ){
     TString RecoilDir("HTT-utilities/RecoilCorrections/data/");
-    
+    TString RecoilFileName = RecoilDir + "Type1_PFMET_2017.root";
     //    TString RecoilFileName = RecoilDir; RecoilFileName += "TypeI-PFMet_Run2016BtoH.root"; Merijn update to 2017:
-    TString RecoilFileName = RecoilDir; RecoilFileName += "Type1_PFMET_2017.root";
 
-    std::cout<<RecoilFileName<<std::endl;
+    std::cout<<RecoilFileName << " with isDY = " << isDY <<std::endl;
     recoilPFMetCorrector = new RecoilCorrector( RecoilFileName);
         
     //    RecoilFileName = RecoilDir; RecoilFileName += "MvaMET_2016BCD.root";
