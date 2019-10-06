@@ -206,7 +206,7 @@ int main(int argc, char * argv[]){
   const struct btag_scaling_inputs inputs_btag_scaling_medium = {reader_B, reader_C, reader_Light, tagEff_B, tagEff_C, tagEff_Light, rand};
 
   // MET Recoil Corrections
-  const bool applyRecoilCorrections = cfg.get<bool>("ApplyRecoilCorrections");
+  const bool ApplyRecoilCorrections = cfg.get<bool>("ApplyRecoilCorrections");
   const bool isDY = infiles.find("DY") == infiles.rfind("/")+1;
   const bool isWJets = (infiles.find("WJets") == infiles.rfind("/")+1) || (infiles.find("W1Jets") == infiles.rfind("/")+1) || (infiles.find("W2Jets") == infiles.rfind("/")+1) || (infiles.find("W3Jets") == infiles.rfind("/")+1) || (infiles.find("W4Jets") == infiles.rfind("/")+1) || (infiles.find("EWK") == infiles.rfind("/")+1);
   const bool isVBForGGHiggs = (infiles.find("VBFHTo")== infiles.rfind("/")+1) || (infiles.find("GluGluHTo")== infiles.rfind("/")+1);
@@ -216,7 +216,7 @@ int main(int argc, char * argv[]){
   
   RecoilCorrector *recoilPFMetCorrector = (RecoilCorrector*) malloc(sizeof(*recoilPFMetCorrector));
   
-  if(!isData && applyRecoilCorrections && (isDY || isWJets || isVBForGGHiggs || isMSSMsignal) ){
+  if(!isData && ApplyRecoilCorrections && (isDY || isWJets || isVBForGGHiggs || isMSSMsignal) ){
     TString RecoilDir("HTT-utilities/RecoilCorrections/data/");
     
     //    TString RecoilFileName = RecoilDir; RecoilFileName += "TypeI-PFMet_Run2016BtoH.root"; Merijn update to 2017:
@@ -371,6 +371,7 @@ int main(int argc, char * argv[]){
     //std::cout << filePUdistribution_data << std::endl;
     //std::cout << filePUdistribution_MC << std::endl;
     
+    TH1D *PU_mc;
     if (era == 2017) {
       TH1D *PU_mc = (TH1D *)filePUdistribution_MC->Get(TString(pileUpforMC));
     } else {
@@ -993,7 +994,7 @@ int main(int argc, char * argv[]){
       ////////////////////////////////////////////////////////////
       
       otree->njetshad = otree->njets;
-      if (!isData && applyRecoilCorrections && (isDY || isWJets || isVBForGGHiggs || isMSSMsignal) ){
+      if (!isData && ApplyRecoilCorrections && (isDY || isWJets || isVBForGGHiggs || isMSSMsignal) ){
       	genV = genTools::genV(analysisTree);
       	genL = genTools::genL(analysisTree);
       	if(isWJets) otree->njetshad += 1;
@@ -1001,7 +1002,7 @@ int main(int argc, char * argv[]){
       
       // PF MET
       genTools::RecoilCorrections( *recoilPFMetCorrector, 
-  			   (!isData && applyRecoilCorrections && (isDY || isWJets || isVBForGGHiggs || isMSSMsignal)) * genTools::MeanResolution,
+  			   (!isData && ApplyRecoilCorrections && (isDY || isWJets || isVBForGGHiggs || isMSSMsignal)) * genTools::MeanResolution,
   			   otree->met, otree->metphi,
   			   genV.Px(), genV.Py(),
   			   genL.Px(), genL.Py(),
