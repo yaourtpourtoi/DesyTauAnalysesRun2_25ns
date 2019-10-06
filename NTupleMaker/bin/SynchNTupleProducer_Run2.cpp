@@ -221,7 +221,7 @@ int main(int argc, char * argv[]){
     TString RecoilFileName = RecoilDir + "Type1_PFMET_2017.root";
     //    TString RecoilFileName = RecoilDir; RecoilFileName += "TypeI-PFMet_Run2016BtoH.root"; Merijn update to 2017:
 
-    std::cout<<RecoilFileName << " with isDY = " << isDY << "and infiles.rfind("/")+1 = " << infiles.rfind("/")+1 << std::endl;
+    std::cout<<RecoilFileName << " with isDY = " << isDY << "and infiles.rfind+1 = " << infiles.rfind("/")+1 << std::endl;
     recoilPFMetCorrector = new RecoilCorrector( RecoilFileName);
         
     //    RecoilFileName = RecoilDir; RecoilFileName += "MvaMET_2016BCD.root";
