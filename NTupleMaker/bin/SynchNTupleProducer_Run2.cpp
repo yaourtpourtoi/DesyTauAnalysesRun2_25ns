@@ -217,16 +217,14 @@ int main(int argc, char * argv[]){
   RecoilCorrector *recoilPFMetCorrector = (RecoilCorrector*) malloc(sizeof(*recoilPFMetCorrector));
   
   if(!isData && ApplyRecoilCorrections && (isDY || isWJets || isVBForGGHiggs || isMSSMsignal) ){
-    TString RecoilDir("HTT-utilities/RecoilCorrections/data/");
-    TString RecoilFileName = RecoilDir + "Type1_PFMET_2017.root";
-    //    TString RecoilFileName = RecoilDir; RecoilFileName += "TypeI-PFMet_Run2016BtoH.root"; Merijn update to 2017:
-
-    std::cout<<RecoilFileName << " with isDY = " << isDY << "and infiles.rfind+1 = " << infiles.rfind("/")+1 << std::endl;
-    recoilPFMetCorrector = new RecoilCorrector( RecoilFileName);
+    TString RecoilFilePath = cfg.get<string>("RecoilFilePath");
+    //    TString RecoilFilePath = RecoilDir; RecoilFilePath += "TypeI-PFMet_Run2016BtoH.root"; Merijn update to 2017:
+    std::cout << RecoilFilePath << std::endl;
+    recoilPFMetCorrector = new RecoilCorrector( RecoilFilePath);
         
-    //    RecoilFileName = RecoilDir; RecoilFileName += "MvaMET_2016BCD.root";
-    //    std::cout<<RecoilFileName<<std::endl;
-    //    recoilMvaMetCorrector = new RecoilCorrector( RecoilFileName);
+    //    RecoilFilePath = RecoilDir; RecoilFilePath += "MvaMET_2016BCD.root";
+    //    std::cout<<RecoilFilePath<<std::endl;
+    //    recoilMvaMetCorrector = new RecoilCorrector( RecoilFilePath);
 
   }
   
