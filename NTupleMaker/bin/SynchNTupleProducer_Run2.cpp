@@ -295,7 +295,7 @@ int main(int argc, char * argv[]){
 
   const bool  ApplyLeptonId    = cfg.get<bool>("Apply" + lep + "Id");
 
-  const float deltaRTrigMatch = cfg.get<float>("DRTrigMatch");
+  const float dRTrigMatch = cfg.get<float>("dRTrigMatch");
   const float dRiso = cfg.get<float>("dRiso");
   
   const float jetEtaCut = cfg.get<float>("JetEtaCut");
@@ -810,7 +810,7 @@ int main(int argc, char * argv[]){
          float dRtrigLep = deltaR(lep_eta, lep_phi, analysisTree.trigobject_eta[iT], analysisTree.trigobject_phi[iT]);        
          float dRtrigTau = deltaR(analysisTree.tau_eta[tauIndex], analysisTree.tau_phi[tauIndex], analysisTree.trigobject_eta[iT], analysisTree.trigobject_phi[iT]);        
     
-         if (dRtrigLep < deltaRTrigMatch){
+         if (dRtrigLep < dRTrigMatch){
            for(unsigned int i_trig = 0; i_trig < filterSingleLep.size(); i_trig++)
            {
               if (nSingleLepTrig.at(i_trig) == -1) continue;
@@ -822,7 +822,7 @@ int main(int argc, char * argv[]){
               if (analysisTree.trigobject_filters[iT][nXTrigLepLeg.at(i_trig)]) isXTrigLepLeg.at(i_trig) = true;
             } 
           }
-         if (dRtrigTau < deltaRTrigMatch){ 
+         if (dRtrigTau < dRTrigMatch){ 
             for(unsigned int i_trig = 0; i_trig < filterXtriggerTauLeg.size(); i_trig++)
             {
                if (nXTrigTauLeg.at(i_trig) == -1) continue;
