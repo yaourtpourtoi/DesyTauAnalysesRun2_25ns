@@ -991,32 +991,30 @@ int main(int argc, char * argv[]){
       ////////////////////////////////////////////////////////////
       
       otree->njetshad = otree->njets;
+      
       if (!isData && ApplyRecoilCorrections && (isDY || isWJets || isVBForGGHiggs || isMSSMsignal) ){
       	genV = genTools::genV(analysisTree);
       	genL = genTools::genL(analysisTree);
       	if(isWJets) otree->njetshad += 1;
+
+        genTools::RecoilCorrections( *recoilPFMetCorrector, 1, // dummy parameter
+          otree->met, otree->metphi,
+          genV.Px(), genV.Py(),
+          genL.Px(), genL.Py(),
+          otree->njetshad,
+          otree->met_rcmr, otree->metphi_rcmr
+        );
+        
+        // overwriting with recoil-corrected values 
+        otree->met = otree->met_rcmr;
+        otree->metphi = otree->metphi_rcmr;   
       }
       
-      // PF MET
-      genTools::RecoilCorrections( *recoilPFMetCorrector, 
-  			   (!isData && ApplyRecoilCorrections && (isDY || isWJets || isVBForGGHiggs || isMSSMsignal)) * genTools::MeanResolution,
-  			   otree->met, otree->metphi,
-  			   genV.Px(), genV.Py(),
-  			   genL.Px(), genL.Py(),
-  			   otree->njetshad,
-  			   otree->met_rcmr, otree->metphi_rcmr
-  			   );
-    
-      // overwriting with recoil-corrected values 
-      otree->met = otree->met_rcmr;
-      otree->metphi = otree->metphi_rcmr;   
-    
       //ditau sytem
       TLorentzVector tauLV; tauLV.SetXYZM(analysisTree.tau_px[tauIndex],
   				     analysisTree.tau_py[tauIndex],
   				     analysisTree.tau_pz[tauIndex],
   				     analysisTree.tau_mass[tauIndex]);
-    
     
       // using PF MET
       TLorentzVector metLV; 

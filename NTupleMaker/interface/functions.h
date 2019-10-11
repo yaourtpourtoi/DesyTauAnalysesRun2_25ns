@@ -730,23 +730,19 @@ namespace genTools{
     return njetshad;
   } 
   
-  enum RecoilCorrectionsMethod{QuantileRemap=1, MeanResolution};
-
   int RecoilCorrections( RecoilCorrector& corr, int method,
-			 float met, float metphi,
-			 float vx, float vy,
-			 float lx, float ly,
-			 int njets,
-			 float& metcorr, float& metphicorr ){
+                  			 float met, float metphi,
+                  			 float vx, float vy,
+                  			 float lx, float ly,
+                  			 int njets,
+                  			 float& metcorr, float& metphicorr ){
+         
     float metx = met*TMath::Cos(metphi);
     float mety = met*TMath::Sin(metphi);
     float metcorrx = metx;
     float metcorry = mety;
-    if (method == 1)
-      corr.Correct(metx, mety, vx, vy, lx, ly, njets, metcorrx, metcorry);
-    else if(method == 2)
-      corr.CorrectByMeanResolution(metx, mety, vx, vy, lx, ly, njets, metcorrx, metcorry);
 
+    corr.CorrectByMeanResolution(metx, mety, vx, vy, lx, ly, njets, metcorrx, metcorry);
     metcorr = TMath::Sqrt(metcorrx * metcorrx + metcorry * metcorry);
     metphicorr = TMath::ATan2(metcorry, metcorrx);
             
