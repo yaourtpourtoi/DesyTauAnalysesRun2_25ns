@@ -8,7 +8,6 @@
 #include "CondFormats/BTauObjects/interface/BTagCalibration.h"
 #include "CondTools/BTau/interface/BTagCalibrationReader.h"
 #include "DesyTauAnalyses/NTupleMaker/interface/JESUncertainties.h"
-//Merijn: add this header, it contains the definitions of tightjetid_2017 and loose_2016
 #include "DesyTauAnalyses/NTupleMaker/interface/Jets.h"
 
 struct btag_scaling_inputs{
@@ -113,40 +112,11 @@ void counting_jets(const AC1B *analysisTree, Synch17Tree *otree, const Config *c
     float dR2 = deltaR(analysisTree->pfjet_eta[jet], analysisTree->pfjet_phi[jet], otree->eta_2, otree->phi_2);
     if (dR2 <= cfg->get<float>("dRJetLeptonCut")) continue;
 
-    //Merijn: skip prefiring regoin 2017:
+    //Merijn: skip prefiring region for 2017:
     if(is2017 && jetPt < 50 && absJetEta > 2.65 && absJetEta < 3.139) continue; 
 
-    // jetId // ALSO PROPAGATED HERE?
-    /*
-    float energy = analysisTree->pfjet_e[jet];
-    energy *= analysisTree->pfjet_energycorr[jet];
-    float chf = analysisTree->pfjet_chargedhadronicenergy[jet]/energy;
-    float nhf = analysisTree->pfjet_neutralhadronicenergy[jet]/energy;
-    float phf = analysisTree->pfjet_neutralemenergy[jet]/energy;
-    float elf = analysisTree->pfjet_chargedemenergy[jet]/energy;
-    float muf = analysisTree->pfjet_muonenergy[jet]/energy;
-    float chm = analysisTree->pfjet_chargedmulti[jet];
-    float nm  = analysisTree->pfjet_neutralmulti[jet];
-    float npr = analysisTree->pfjet_chargedmulti[jet] + analysisTree->pfjet_neutralmulti[jet];
-    
-    bool isPFJetId = false;
-    if (absJetEta<=2.7)
-      isPFJetId = (nhf < 0.99 && phf < 0.99 && npr > 1) && (absJetEta>2.4 || (chf>0 && chm > 0 && elf < 0.99));
-    else if (absJetEta<=3.0)
-      isPFJetId = (phf < 0.9 && nm > 2);
-    else
-      isPFJetId = phf < 0.9 && nm > 10;
-    
-    if (!isPFJetId) continue;
-    */
-
-    //Merijn: update jetID requirements to definition in Jets.h:
-       
-    bool isPFJetId = false;
-    if (is2016)
-      isPFJetId = looseJetiD((*analysisTree), int(jet));
-    else
-      isPFJetId = tightJetiD_2017((*analysisTree), int(jet));
+    // see definition in Jets.h
+    bool isPFJetId = tightJetID((*analysisTree), int(jet), cfg->get<int>("era"));
     if (!isPFJetId) continue;
      
     jetspt20.push_back(jet);
@@ -182,7 +152,6 @@ void counting_jets(const AC1B *analysisTree, Synch17Tree *otree, const Config *c
       	double jet_scalefactor = 1;
       	double JetPtForBTag    = jetPt;
       	double tageff          = 1;
-    	 // std::cout << "before inputs_btag_scaling" << std::endl;
 
       	//Merijn 2019 6 7: implement adjustments for edges, from T/M
       	if (JetPtForBTag > MaxBJetPt) JetPtForBTag = MaxBJetPt - 0.1;
@@ -219,7 +188,7 @@ void counting_jets(const AC1B *analysisTree, Synch17Tree *otree, const Config *c
       	double rannum = inputs_btag_scaling->rand->Rndm();
 
       	if (jet_scalefactor < 1 && tagged)  { // downgrade - demote
-      	  if (rannum < 1-jet_scalefactor)  
+      	  if (rannum < 1 - jet_scalefactor)  
             tagged = false;
       	}
       	if (jet_scalefactor > 1 && !tagged) { // upgrade - promote
@@ -231,8 +200,9 @@ void counting_jets(const AC1B *analysisTree, Synch17Tree *otree, const Config *c
       if (taggedRaw) bjetsRaw.push_back(jet); 
       if (tagged) {
       	bjets.push_back(jet);
+        
       	if (indexLeadingBJet >= 0) {//Merijn: not sure if also done in macro t/m..
-      	  if (jetPt<ptLeadingBJet && jetPt > ptSubLeadingBJet) {
+      	  if (jetPt < ptLeadingBJet && jetPt > ptSubLeadingBJet) {
       	    indexSubLeadingBJet = jet;
       	    ptSubLeadingBJet = jetPt;
       	  }
@@ -341,14 +311,12 @@ void counting_jets(const AC1B *analysisTree, Synch17Tree *otree, const Config *c
     for (unsigned int jet = 0; jet < jets.size(); ++jet) {
       int index = jets.at(jet);
       float etaX = analysisTree->pfjet_eta[index];
-      if (index != indexLeadingJet && (index != indexSubLeadingJet) && (etaX > etamin) && (etaX < etamax)) 
+      if ((index != indexLeadingJet) && (index != indexSubLeadingJet) && (etaX > etamin) && (etaX < etamax)) 
         otree->njetingap++;
     }
   }
 }
 
-
-
-} // end of leptau namespace 
+} //jets namespace 
 
 #endif
