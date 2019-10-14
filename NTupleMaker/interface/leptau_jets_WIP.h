@@ -97,9 +97,9 @@ void counting_jets(const AC1B *analysisTree, Synch17Tree *otree, const Config *c
     bool is2018 = false;
     
     //Merijn read in year, a.o. for prefiring issue
-    if(cfg->get<string>("era") == "2016") is2016 = true;
-    else if(cfg->get<string>("era") == "2017") is2017 = true;
-    else if(cfg->get<string>("era") == "2018") is2018 = true;
+    if(cfg->get<int>("era") == 2016) is2016 = true;
+    else if(cfg->get<int>("era") == 2017) is2017 = true;
+    else if(cfg->get<int>("era") == 2018) is2018 = true;
     else{cout<<"no era found in cfg file, exiting"<<endl; exit(0);}
     
     //float jetPt = analysisTree->pfjet_pt[jet];
