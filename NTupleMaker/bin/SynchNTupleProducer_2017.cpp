@@ -336,7 +336,7 @@ int main(int argc, char * argv[]){
 
   //Merijn removed dimuon cut information since it is in the config file, best to have in one location only to avoid confusion
 
-  const float deltaRTrigMatch = cfg.get<float>("DRTrigMatch");
+  const float deltaRTrigMatch = cfg.get<float>("dRTrigMatch");
   const float dRiso = cfg.get<float>("dRiso");
   
   const float jetEtaCut = cfg.get<float>("JetEtaCut");
