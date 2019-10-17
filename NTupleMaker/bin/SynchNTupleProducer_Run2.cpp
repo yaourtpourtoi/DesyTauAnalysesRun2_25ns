@@ -611,7 +611,7 @@ int main(int argc, char * argv[]){
     
       if (isData && !isGoodLumi(otree->run, otree->lumi, json))
       	continue;
-    
+      counter[4]++;
       initializeGenTree(gentree);
     
        // weights
@@ -628,12 +628,13 @@ int main(int argc, char * argv[]){
         if (fabs(analysisTree.tau_eta[it]) >= etaTauCut) continue;
         if (fabs(analysisTree.tau_leadchargedhadrcand_dz[it]) >= dzTauCut) continue;
         if (fabs(fabs(analysisTree.tau_charge[it]) - 1) > 0.001) continue;
-    
+        counter[5]++;
       	if (analysisTree.tau_byVVVLooseDeepTau2017v2p1VSjet[it] < 0.5) continue;
       	if (analysisTree.tau_byVVVLooseDeepTau2017v2p1VSe[it] < 0.5) continue;
       	if (analysisTree.tau_byVLooseDeepTau2017v2p1VSmu[it] < 0.5) continue;
-    
+        counter[6]++;
         if (analysisTree.tau_decayModeFindingNewDMs[it] < 0.5) continue; //always true, cut applied in NTupleMaker
+        counter[7]++;
         if (analysisTree.tau_decayMode[it] == 5 || analysisTree.tau_decayMode[it] == 6) continue;
     
         taus.push_back(it);
