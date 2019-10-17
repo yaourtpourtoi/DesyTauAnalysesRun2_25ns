@@ -651,11 +651,11 @@ int main(int argc, char * argv[]){
           if (fabs(analysisTree.electron_eta[ie]) >= etaLeptonCut) continue;
           if (fabs(analysisTree.electron_dxy[ie]) >= dxyLeptonCut) continue;
       	  if (fabs(analysisTree.electron_dz[ie]) >= dzLeptonCut) continue;
-          if (!electronMvaId && ApplyLeptonId) continue;
+          if (!electronMvaId) continue;
     
       	  //Meirjn 2019 8 20: reinstated. They are mentioned in the legacy twiki
-      	  if (!analysisTree.electron_pass_conversion[ie] && ApplyLeptonId) continue;
-      	  if (analysisTree.electron_nmissinginnerhits[ie] > 1 && ApplyLeptonId) continue;
+      	  if (!analysisTree.electron_pass_conversion[ie]) continue;
+      	  if (analysisTree.electron_nmissinginnerhits[ie] > 1) continue;
           leptons.push_back(ie);
         }
       }
