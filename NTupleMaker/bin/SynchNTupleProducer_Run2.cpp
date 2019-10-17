@@ -286,7 +286,7 @@ int main(int argc, char * argv[]){
   cout<<"dzLeptonCut "<<dzLeptonCut<<endl;
   cout<<"dzTauCut "<<dzTauCut<<endl;
 
-  const bool  ApplyLeptonId    = cfg.get<bool>("Apply" + lep + "Id");
+  // const bool  ApplyLeptonId    = cfg.get<bool>("Apply" + lep + "Id");
 
   const float dRTrigMatch = cfg.get<float>("dRTrigMatch");
   const float dRiso = cfg.get<float>("dRiso");
@@ -667,7 +667,7 @@ int main(int argc, char * argv[]){
           if (fabs(analysisTree.muon_eta[im]) >= etaLeptonCut) continue;
           if (fabs(analysisTree.muon_dxy[im]) >= dxyLeptonCut) continue;
           if (fabs(analysisTree.muon_dz[im]) >= dzLeptonCut) continue;
-          if (!muonMediumId && ApplyLeptonId) continue;
+          if (!muonMediumId) continue;
           leptons.push_back(im);
           }
       }
