@@ -288,8 +288,8 @@ int main(int argc, char * argv[]){
   const float ptTauLowCut    = cfg.get<float>("ptTauLowCut");
   const float etaTauCut      = cfg.get<float>("etaTauCut");
   const float dzTauCut       = cfg.get<float>("dzTauCut");
-  const bool  applyTauId     = true; //cfg.get<bool>("ApplyTauId");
-  const bool  applyMuonId     = true; //cfg.get<bool>("ApplyMuonId");//merijn 2019 8 8: make sure that the flag in the config is used
+  const bool  applyTauId     = cfg.get<bool>("ApplyTauId");
+  const bool  applyMuonId    = cfg.get<bool>("ApplyMuonId");//merijn 2019 8 8: make sure that the flag in the config is used
 
   // tau energy scale corrections
   const float shift_tes_1prong = cfg.get<float>("TauEnergyScaleShift_OneProng");
