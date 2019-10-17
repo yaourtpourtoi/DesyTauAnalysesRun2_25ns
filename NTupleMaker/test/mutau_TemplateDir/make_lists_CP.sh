@@ -5,7 +5,7 @@ dirTT=/pnfs/desy.de/cms/tier2/store/user/mmeyer/ntuples/2017/mc_v3/
 dirST=/pnfs/desy.de/cms/tier2/store/user/mmeyer/ntuples/2017/mc_v3/
 dirW=/pnfs/desy.de/cms/tier2/store/user/mmeyer/ntuples/2017/mc_v3/
 dirVV=/pnfs/desy.de/cms/tier2/store/user/mmeyer/ntuples/2017/mc_v3/
-dirCPsignals=/nfs/dust/cms/user/cardinia/gridjobs/NTuples/2017/MC/RunIIFall17
+dirCPsignals=/pnfs/desy.de/cms/tier2/store/user/mmeyer/ntuples/2017/mc_v3/
 
 ls $dirDY/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/*root > DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8
 ls $dirDY/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_ext1/*root >> DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8
