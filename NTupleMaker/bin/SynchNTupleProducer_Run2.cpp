@@ -1629,7 +1629,7 @@ void FillTau(const AC1B *analysisTree, Synch17Tree *otree, int tauIndex){
   otree->byTightDeepTau2017v2p1VSmu_2     = analysisTree->tau_byTightDeepTau2017v2p1VSmu[tauIndex];
   otree->byVLooseDeepTau2017v2p1VSe_2     = analysisTree->tau_byVLooseDeepTau2017v2p1VSe[tauIndex];
   otree->byVLooseDeepTau2017v2p1VSjet_2   = analysisTree->tau_byVLooseDeepTau2017v2p1VSjet[tauIndex];
-  otree->byVLooseDeepTau2017v2p1VSm_2    = analysisTree->tau_byVLooseDeepTau2017v2p1VSmu[tauIndex];
+  otree->byVLooseDeepTau2017v2p1VSmu_2    = analysisTree->tau_byVLooseDeepTau2017v2p1VSmu[tauIndex];
   otree->byVTightDeepTau2017v2p1VSe_2     = analysisTree->tau_byVTightDeepTau2017v2p1VSe[tauIndex];
   otree->byVTightDeepTau2017v2p1VSjet_2   = analysisTree->tau_byVTightDeepTau2017v2p1VSjet[tauIndex];
   otree->byVVLooseDeepTau2017v2p1VSe_2    = analysisTree->tau_byVVLooseDeepTau2017v2p1VSe[tauIndex];
