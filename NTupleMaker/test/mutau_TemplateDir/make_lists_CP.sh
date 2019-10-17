@@ -1,22 +1,23 @@
 #!/bin/sh
-dirDataSingleMuon=/nfs/dust/cms/user/cardinia/gridjobs/NTuples/2017/DATA/Run2017-31Mar2018
-dirDY=/nfs/dust/cms/user/klundert/HiggsCPNTuples/2017/MC
-dirTT=/nfs/dust/cms/user/klundert/HiggsCPNTuples/2017/MC
-dirST=/nfs/dust/cms/user/klundert/HiggsCPNTuples/2017/MC
-dirW=/nfs/dust/cms/user/cardinia/gridjobs/NTuples/2017/MC/RunIIFall17
-dirVV=/nfs/dust/cms/user/cardinia/gridjobs/NTuples/2017/MC/RunIIFall17
+dirDataSingleMuon=/pnfs/desy.de/cms/tier2/store/user/mmeyer/ntuples/2017/data/SingleMuon/
+dirDY=/pnfs/desy.de/cms/tier2/store/user/mmeyer/ntuples/2017/mc_v3/
+dirTT=/pnfs/desy.de/cms/tier2/store/user/mmeyer/ntuples/2017/mc_v3/
+dirST=/pnfs/desy.de/cms/tier2/store/user/mmeyer/ntuples/2017/mc_v3/
+dirW=/pnfs/desy.de/cms/tier2/store/user/mmeyer/ntuples/2017/mc_v3/
+dirVV=/pnfs/desy.de/cms/tier2/store/user/mmeyer/ntuples/2017/mc_v3/
 dirCPsignals=/nfs/dust/cms/user/cardinia/gridjobs/NTuples/2017/MC/RunIIFall17
 
 ls $dirDY/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/*root > DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8
 ls $dirDY/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_ext1/*root >> DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8
-#ls $dirDY/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/*root > DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8
-ls $dirDY/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_ext1/*root > DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8
+ls $dirDY/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/*root > DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8
+# ls $dirDY/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_ext1/*root > DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8
 ls $dirDY/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/*root > DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8
 ls $dirDY/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_ext1/*root >> DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8
 ls $dirDY/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/*root > DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8
 ls $dirDY/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_ext1/*root >> DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8
 ls $dirDY/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/*root > DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8  
 ls $dirDY/DYJetsToLL_M-5to50_TuneCP5_13TeV-madgraphMLM-pythia8/*root > DYJetsToLL_M-5to50_TuneCP5_13TeV-madgraphMLM-pythia8
+ls $dirDY/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8/*root > DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8
 
 ls $dirW/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/*root > WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8
 ls $dirW/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_ext1/*root >> WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8
