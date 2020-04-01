@@ -721,30 +721,46 @@ int main(int argc, char * argv[]){
       analysisTree.GetEntry(iEntry);
       nEvents++;
 
-      if (era==2018) {
-	if(isData && !isEmbedded)
-	  {
-	    if (analysisTree.event_run < 315974) { // muon filter of the mutau triggers changed
-	      filterXtriggerLepLeg = cfg.get<vector<string>>("filterXtriggerLepLeg_before_run315974");
-	      filterXtriggerTauLeg = cfg.get<vector<string>>("filterXtriggerTauLeg_before_run315974");
-	    }
-	    else if (analysisTree.event_run < 317509) // HPS algorithm was introduced
-	      {
-		filterXtriggerLepLeg = cfg.get<vector<string>>("filterXtriggerLepLeg_run315974_to_HPS");
-		filterXtriggerTauLeg = cfg.get<vector<string>>("filterXtriggerTauLeg_run315974_to_HPS");    
-	      }
-	    else{
-	      filterXtriggerLepLeg = cfg.get<vector<string>>("filterXtriggerLepLeg_after_HPS");
-	      filterXtriggerTauLeg = cfg.get<vector<string>>("filterXtriggerTauLeg_after_HPS");    
-	    }
-	  }
-	else{
-	  filterXtriggerLepLeg = cfg.get<vector<string>>("filterXtriggerLepLeg_after_HPS");
-	  filterXtriggerTauLeg = cfg.get<vector<string>>("filterXtriggerTauLeg_after_HPS");          
-	}
-      }
-      //      cout << "Run number = " << analysisTree.event_run << endl;
-    
+      if (era == 2018) {
+      	if(isData && !isEmbedded)
+      	  {
+            if (ch == "mt")
+            {
+              if (analysisTree.event_run < 315974) { // muon filter of the mutau triggers changed
+                filterXtriggerLepLeg = cfg.get<vector<string>>("filterXtriggerLepLeg_before_run315974");
+                filterXtriggerTauLeg = cfg.get<vector<string>>("filterXtriggerTauLeg_before_run315974");
+              }
+              else if (analysisTree.event_run < 317509) // HPS algorithm was introduced
+              {
+                filterXtriggerLepLeg = cfg.get<vector<string>>("filterXtriggerLepLeg_run315974_to_HPS");
+                filterXtriggerTauLeg = cfg.get<vector<string>>("filterXtriggerTauLeg_run315974_to_HPS");    
+              }
+              else
+              {
+                filterXtriggerLepLeg = cfg.get<vector<string>>("filterXtriggerLepLeg_after_HPS");
+                filterXtriggerTauLeg = cfg.get<vector<string>>("filterXtriggerTauLeg_after_HPS");    
+              }
+            }
+            else if (ch == "et")
+            {
+              if (analysisTree.event_run < 317509) // HPS algorithm was introduced
+              {
+                filterXtriggerLepLeg = cfg.get<vector<string>>("filterXtriggerLepLeg_before_HPS");
+                filterXtriggerTauLeg = cfg.get<vector<string>>("filterXtriggerTauLeg_before_HPS");    
+              }
+              else
+              {
+                filterXtriggerLepLeg = cfg.get<vector<string>>("filterXtriggerLepLeg_after_HPS");
+                filterXtriggerTauLeg = cfg.get<vector<string>>("filterXtriggerTauLeg_after_HPS");    
+              }
+        	  }
+          }
+      	else
+        { // use with HPS in its name for MC and Embedded
+      	  filterXtriggerLepLeg = cfg.get<vector<string>>("filterXtriggerLepLeg_after_HPS");
+      	  filterXtriggerTauLeg = cfg.get<vector<string>>("filterXtriggerTauLeg_after_HPS");          
+      	}
+      }    
 
       //TO DO: fix tauspinner weight implementation after deprecated method is not in use for 2017
       if(!applyTauSpinnerWeights){
@@ -888,16 +904,13 @@ int main(int argc, char * argv[]){
       vector<int> leptons; leptons.clear();
       if(ch == "et"){
         for (unsigned int ie = 0; ie<analysisTree.electron_count; ++ie) {
-          bool electronMvaId = analysisTree.electron_mva_wp80_Iso_Fall17_v1[ie];
-      	  // bool electronMvaId = analysisTree.electron_mva_wp80_general_Spring16_v1[ie];
+          bool electronMvaId = analysisTree.electron_mva_wp90_noIso_Fall17_v2[ie];
     
           if (analysisTree.electron_pt[ie] <= ptLeptonLowCut) continue;
           if (fabs(analysisTree.electron_eta[ie]) >= etaLeptonCut) continue;
           if (fabs(analysisTree.electron_dxy[ie]) >= dxyLeptonCut) continue;
       	  if (fabs(analysisTree.electron_dz[ie]) >= dzLeptonCut) continue;
           if (!electronMvaId) continue;
-    
-      	  //Meirjn 2019 8 20: reinstated. They are mentioned in the legacy twiki
       	  if (!analysisTree.electron_pass_conversion[ie]) continue;
       	  if (analysisTree.electron_nmissinginnerhits[ie] > 1) continue;
           leptons.push_back(ie);
@@ -1036,6 +1049,9 @@ int main(int argc, char * argv[]){
       otree->trg_mutaucross = false;
       otree->trg_mutaucross_mu = false;
       otree->trg_mutaucross_tau = false;
+      otree->trg_etaucross = false;
+      otree->trg_etaucross_e = false;
+      otree->trg_etaucross_tau = false;
         
       for (unsigned int iT = 0; iT < analysisTree.trigobject_count; ++iT) {
 	
@@ -1095,9 +1111,19 @@ int main(int argc, char * argv[]){
     
       otree->singleLepTrigger = isSingleLepTrig;
       if (ch == "mt")
-       otree->trg_singlemuon = isSingleLepTrig;
+      {
+        otree->trg_singlemuon = isSingleLepTrig;
+        otree->trg_mutaucross_mu = isXTrigLep;
+        otree->trg_mutaucross_tau = isXTrigTau;
+        otree->trg_mutaucross = isXTrig;        
+      }
       if (ch == "et")
+      {  
        otree->trg_singleelectron = isSingleLepTrig;
+       otree->trg_etaucross_e = isXTrigLep;
+       otree->trg_etaucross_tau = isXTrigTau;
+       otree->trg_etaucross = isXTrig;        
+      } 
     
       /*
       cout << "xtrig_lep = " << isXTrigLep << "  xtrig_tau = " << isXTrigTau << endl;
@@ -1109,9 +1135,6 @@ int main(int argc, char * argv[]){
       cout << endl;
       */
 
-      otree->trg_mutaucross_mu = isXTrigLep;
-      otree->trg_mutaucross_tau = isXTrigTau;
-      otree->trg_mutaucross = isXTrig;
     
     
       ////////////////////////////////////////////////////////////
