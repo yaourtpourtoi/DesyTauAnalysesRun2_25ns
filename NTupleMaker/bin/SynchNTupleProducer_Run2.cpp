@@ -1110,6 +1110,10 @@ int main(int argc, char * argv[]){
       isXTrig = isXTrigTau && isXTrigLep;
     
       otree->singleLepTrigger = isSingleLepTrig;
+      otree->xTrigger = isXTrig;
+      otree->xTriggerTau = isXTrigTau;
+      otree->xTriggerLep = isXTrigLep;
+      
       if (ch == "mt")
       {
         otree->trg_singlemuon = isSingleLepTrig;
@@ -1675,9 +1679,11 @@ int main(int argc, char * argv[]){
     
       bool isSRevent = true; //boolean used to compute SVFit variables only on SR events, it is set to true when running Synchronization to run SVFit on all events
       if(!Synch){
-	isSRevent = (otree->dilepton_veto<0.5 &&  otree->extramuon_veto<0.5 && otree->extraelec_veto<0.5 && (otree->trg_singlemuon>0.5 || otree->trg_mutaucross>0.5) && otree->pt_1>19 && otree->pt_2>19 && otree->byVVVLooseDeepTau2017v2p1VSjet_2>0.5);
+	isSRevent = (otree->dilepton_veto<0.5 &&  otree->extramuon_veto<0.5 && otree->extraelec_veto<0.5 && otree->pt_1>19 && otree->pt_2>19 && otree->byVVVLooseDeepTau2017v2p1VSjet_2>0.5);
 	if(usePuppiMET) isSRevent = isSRevent && otree->puppimt_1<60;
 	else isSRevent = isSRevent && otree->mt_1<60;
+  if(ch == "mt") isSRevent = isSRevent && (otree->trg_singlemuon>0.5 || otree->trg_mutaucross>0.5)
+  if(ch == "et") isSRevent = isSRevent && (otree->trg_singleelectron>0.5 || otree->trg_etaucross>0.5)
       }
       /*
 	if (!isSRevent) { 
@@ -1774,7 +1780,7 @@ int main(int argc, char * argv[]){
       TVector3 vertex(vtx_x,vtx_y,vtx_z);
       ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> ipCov1;
       TVector3 IP1;
-      double ipsig1 = IP_significance_helix_mu(&analysisTree,leptonIndex,vertex,PV_covariance,ipCov1,IP1);
+      double ipsig1 = IP_significance_helix_lep(&analysisTree,leptonIndex, ch, vertex,PV_covariance,ipCov1,IP1);
 
       ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> ipCov2;
       TVector3 IP2;
@@ -2050,14 +2056,14 @@ int main(int argc, char * argv[]){
 
 ////FILLING FUNCTIONS//////
 
-void FillVertices(const AC1B *analysisTree, Synch17Tree *otree, const bool isData, int leptonIndex, int tauIndex){
+void FillVertices(const AC1B *analysisTree, Synch17Tree *otree, const bool isData, int leptonIndex, int tauIndex, TString channel){
 
   otree->RecoVertexX = analysisTree->primvertex_x;
   otree->RecoVertexY = analysisTree->primvertex_y;
   otree->RecoVertexZ = analysisTree->primvertex_z;
   
   bool is_refitted_PV_with_BS = true;
-  TVector3 vertex_refitted_BS = get_refitted_PV_with_BS(analysisTree, leptonIndex, tauIndex, is_refitted_PV_with_BS);
+  TVector3 vertex_refitted_BS = get_refitted_PV_with_BS(analysisTree, leptonIndex, tauIndex, channel, is_refitted_PV_with_BS);
   otree->pvx = vertex_refitted_BS.X();
   otree->pvy = vertex_refitted_BS.Y();
   otree->pvz = vertex_refitted_BS.Z();
@@ -2342,7 +2348,7 @@ void FillMuTau(const AC1B *analysisTree, Synch17Tree *otree, int leptonIndex, in
   TVector3 PV_with_BS (analysisTree->primvertexwithbs_x, analysisTree->primvertexwithbs_y, analysisTree->primvertexwithbs_z );
   TVector3 ip; 
   ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> ipCovariance;
-  otree->IP_signif_PV_with_BS_1 = IP_significance_helix_mu(analysisTree, leptonIndex, PV_with_BS, PV_with_BS_cov_components,ipCovariance,ip);
+  otree->IP_signif_PV_with_BS_1 = IP_significance_helix_lep(analysisTree, leptonIndex, ch, PV_with_BS, PV_with_BS_cov_components,ipCovariance,ip);
 
   TLorentzVector muon_P4;
   muon_P4.SetXYZM(analysisTree->muon_px[leptonIndex], analysisTree->muon_py[leptonIndex], analysisTree->muon_pz[leptonIndex], muonMass);
