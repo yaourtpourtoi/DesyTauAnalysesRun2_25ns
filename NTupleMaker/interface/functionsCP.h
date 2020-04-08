@@ -1869,10 +1869,10 @@ TVector3 get_refitted_PV_with_BS(const AC1B * analysisTree, int firstIndex, int 
 	float vtx_y = analysisTree->primvertexwithbs_y;
 	float vtx_z = analysisTree->primvertexwithbs_z;
 	is_refitted_PV_with_BS = false;
+	std::vector<int> first_indices(-1, -1);
 
 	for(unsigned int i = 0; i < analysisTree->refitvertexwithbs_count; i++)
 	{	
-		std::vector<int> first_indices(-1, -1);
 		if (ch == "mt")
 		{
 			first_indices[0] = analysisTree->refitvertexwithbs_muIndex[i][0];
