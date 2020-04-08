@@ -1705,13 +1705,13 @@ TLorentzVector IP_helix_lep(const AC1B * analysisTree, int lepIndex, TString cha
 		for(auto i:  analysisTree->muon_helixparameters[lepIndex]) h_param_lep.push_back(i);	
 		
 	} else if (channel == "et"){
-		// B = analysisTree->electron_Bfield[lepIndex];
-		// ref_lep.SetX(analysisTree->electron_referencePoint[lepIndex][0]);
-		// ref_lep.SetY(analysisTree->electron_referencePoint[lepIndex][1]);
-		// ref_lep.SetZ(analysisTree->electron_referencePoint[lepIndex][2]);
+		B = analysisTree->muon_Bfield[lepIndex];
+		ref_lep.SetX(analysisTree->muon_referencePoint[lepIndex][0]);
+		ref_lep.SetY(analysisTree->muon_referencePoint[lepIndex][1]);
+		ref_lep.SetZ(analysisTree->muon_referencePoint[lepIndex][2]);
 		p4_lep_auxil.SetXYZM(analysisTree->electron_px[lepIndex], analysisTree->electron_py[lepIndex], analysisTree->electron_pz[lepIndex], ELECTRON_MASS);
 		p4_lep.SetPxPyPzE(p4_lep_auxil.Px(),p4_lep_auxil.Py(),p4_lep_auxil.Pz(),p4_lep_auxil.E());
-		// for(auto i:  analysisTree->electron_helixparameters[lepIndex]) h_param_lep.push_back(i);	
+		for(auto i:  analysisTree->muon_helixparameters[lepIndex]) h_param_lep.push_back(i);	
 	}
 	
 	ImpactParameter IP;
@@ -1770,15 +1770,15 @@ double IP_significance_helix_lep(const AC1B * analysisTree, int lepIndex, TStrin
 		ref_lep.SetZ(analysisTree->muon_referencePoint[lepIndex][2]);
 		for(auto i:  analysisTree->muon_helixparameters[lepIndex]) h_param_lep.push_back(i);	
 	}
-  // else if (channel == "et") 
-	// {
-	// 	B = analysisTree->electron_Bfield[lepIndex];
-	// 	ref_lep.SetX(analysisTree->electron_referencePoint[lepIndex][0]);
-	// 	ref_lep.SetY(analysisTree->electron_referencePoint[lepIndex][1]);
-	// 	ref_lep.SetZ(analysisTree->electron_referencePoint[lepIndex][2]);
-	// 	for(auto i:  analysisTree->electron_helixparameters[lepIndex]) h_param_lep.push_back(i);	
-	// }
-	// 
+  else if (channel == "et") 
+	{
+		B = analysisTree->muon_Bfield[lepIndex];
+		ref_lep.SetX(analysisTree->muon_referencePoint[lepIndex][0]);
+		ref_lep.SetY(analysisTree->muon_referencePoint[lepIndex][1]);
+		ref_lep.SetZ(analysisTree->muon_referencePoint[lepIndex][2]);
+		for(auto i:  analysisTree->muon_helixparameters[lepIndex]) h_param_lep.push_back(i);	
+	}
+	
 	RMPoint PV(PV_coord.X(), PV_coord.Y(), PV_coord.Z());
 	
 	// !! check that in NTupleMaker the logic of filling PV_cov_components is the same 
