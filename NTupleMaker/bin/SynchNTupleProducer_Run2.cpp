@@ -90,7 +90,7 @@ void initializeGenTree(Synch17GenTree *gentree);
 void FillMuTau(const AC1B * analysisTree, Synch17Tree *otree, int leptonIndex, int tauIndex, float dRiso);
 void FillETau(const AC1B * analysisTree, Synch17Tree *otree, int leptonIndex, float dRiso);
 void FillTau(const AC1B * analysisTree, Synch17Tree *otree, int leptonIndex, int tauIndex);
-void FillVertices(const AC1B * analysisTree,Synch17Tree *otree, const bool isData, int leptonIndex, int tauIndex);
+void FillVertices(const AC1B * analysisTree,Synch17Tree *otree, const bool isData, int leptonIndex, int tauIndex, TString channel);
 void FillGenTree(const AC1B * analysisTree, Synch17GenTree *gentree);
 float getEmbeddedWeight(const AC1B * analysisTree, RooWorkspace* WS);
 
@@ -1163,7 +1163,7 @@ int main(int argc, char * argv[]){
       // reset efficiency weights
     
       //all criterua passed, we fill vertices here;	
-      FillVertices(&analysisTree, otree, isData, leptonIndex, tauIndex);
+      FillVertices(&analysisTree, otree, isData, leptonIndex, tauIndex, ch);
     
       //Merijn: save here all gen information for the selected RECO events, gets stored for convenience in the taucheck tree ;-). Note that no selection on gen level is applied..     
       //Merijn 2019 4 3:note that a separate fill is not needed. We store in the otree now, which is Filled at the bottom! Filling here will make things out of synch..
