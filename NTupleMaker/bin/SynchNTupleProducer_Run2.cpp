@@ -720,7 +720,7 @@ int main(int argc, char * argv[]){
       counter[0]++;
       analysisTree.GetEntry(iEntry);
       nEvents++;
-
+std::cout << "1" << '\n';
       if (era == 2018) {
       	if(isData && !isEmbedded)
       	  {
@@ -743,6 +743,7 @@ int main(int argc, char * argv[]){
             }
             else if (ch == "et")
             {
+              std::cout << "2" << '\n';
               if (analysisTree.event_run < 317509) // HPS algorithm was introduced
               {
                 filterXtriggerLepLeg = cfg.get<vector<string>>("filterXtriggerLepLeg_before_HPS");
@@ -757,6 +758,7 @@ int main(int argc, char * argv[]){
           }
       	else
         { // use with HPS in its name for MC and Embedded
+          std::cout << "3" << '\n';
       	  filterXtriggerLepLeg = cfg.get<vector<string>>("filterXtriggerLepLeg_after_HPS");
       	  filterXtriggerTauLeg = cfg.get<vector<string>>("filterXtriggerTauLeg_after_HPS");          
       	}
@@ -811,12 +813,14 @@ int main(int argc, char * argv[]){
 	  gentreeForGoodRecoEvtsOnly->mix0p375_htt125 = analysisTree.TauSpinnerWeight[4];
 	}
       }
+      std::cout << "4" << '\n';
 
       if (!isData){
       	FillGenTree(&analysisTree,gentree);
       	gentree->Fill();
       }
 
+      std::cout << "5" << '\n';
       //      std::cout << "OK!!!!!!!!" << std::endl;
 
       //Skip events not passing the MET filters, if applied
