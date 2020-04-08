@@ -100,7 +100,7 @@ if [[ $DATA_TYPE == "MC" ]]; then
   if [[ $YEAR -eq 17 ]]; then # for 17 the path in the root file to PU histograms is sample-dependent, pick it from the list
     for (( i = 0; i < $MC_SAMPLES_LEN; i++ )); do
         PU_STR=${MC_SAMPLES_LIST[i]}_pileup
-        sed "s/pileUpforMC =/pileUpforMC = ${PU_STR}/" ${TEMPLATE_CFG_NAME}_${DATA_TYPE}.conf > $OUTDIR/analysisMacroSynch_mt_${MC_SAMPLES_LIST[i]}.conf
+        sed "s/pileUpforMC =/pileUpforMC = ${PU_STR}/" ${TEMPLATE_CFG_NAME}_${DATA_TYPE}.conf > $OUTDIR/analysisMacroSynch_et_${MC_SAMPLES_LIST[i]}.conf
     done
     sed "s/pileUpforMC =/pileUpforMC = MC_PU2017_pileup/" ${TEMPLATE_CFG_NAME}_${DATA_TYPE}.conf > $OUTDIR/${TEMPLATE_CFG_NAME}_${DATA_TYPE}.conf
   else
