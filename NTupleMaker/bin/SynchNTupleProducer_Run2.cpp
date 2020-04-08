@@ -943,7 +943,6 @@ int main(int argc, char * argv[]){
       float lep_pt_max  = -1;
       float tau_pt_max  = -1;
     
-    std::cout << "1" << '\n';
       //////////////LOOP on Taus/////////////
     
       for (unsigned int it = 0; it < taus.size(); ++it) {
@@ -1012,7 +1011,6 @@ int main(int argc, char * argv[]){
         } // lepton loop
       } // tau loop
     
-      std::cout << "2" << '\n';
       if (leptonIndex < 0) continue;
       if (tauIndex < 0) continue;
       counter[9]++;
@@ -1037,7 +1035,6 @@ int main(int argc, char * argv[]){
       // Trigger matching
       ////////////////////////////////////////////////////////////
     
-      std::cout << "3" << '\n';
       bool isSingleLepTrig = false;
       vector<bool> isXTrigLepLeg(filterXtriggerLepLeg.size(), false);
       vector<bool> isXTrigTauLeg(filterXtriggerTauLeg.size(), false);
@@ -1142,7 +1139,6 @@ int main(int argc, char * argv[]){
       cout << endl;
       */
 
-      std::cout << "4" << '\n';
     
     
       ////////////////////////////////////////////////////////////
@@ -1184,7 +1180,6 @@ int main(int argc, char * argv[]){
       }
       
       FillTau(&analysisTree, otree, leptonIndex, tauIndex);
-      std::cout << "5" << '\n';
 
       // initialize JER (including data and embedded) 
       otree->apply_recoil = ApplyRecoilCorrections;
