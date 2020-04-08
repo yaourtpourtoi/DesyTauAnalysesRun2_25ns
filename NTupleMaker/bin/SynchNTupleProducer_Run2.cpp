@@ -1165,13 +1165,11 @@ int main(int argc, char * argv[]){
     
       //all criterua passed, we fill vertices here;	
       FillVertices(&analysisTree, otree, isData, leptonIndex, tauIndex, ch);
-      std::cout << "1" << '\n';
     
       //Merijn: save here all gen information for the selected RECO events, gets stored for convenience in the taucheck tree ;-). Note that no selection on gen level is applied..     
       //Merijn 2019 4 3:note that a separate fill is not needed. We store in the otree now, which is Filled at the bottom! Filling here will make things out of synch..
       if (!isData)
         FillGenTree(&analysisTree, gentreeForGoodRecoEvtsOnly);       
-      std::cout << "2" << '\n';
     
       if(ch == "mt") {
       	FillMuTau(&analysisTree, otree, leptonIndex, tauIndex, dRiso);
@@ -1181,9 +1179,9 @@ int main(int argc, char * argv[]){
       	FillETau(&analysisTree, otree, leptonIndex, dRiso);
         leptonLV.SetXYZM(analysisTree.electron_px[leptonIndex], analysisTree.electron_py[leptonIndex], analysisTree.electron_pz[leptonIndex], electronMass);
       }
-      std::cout << "3" << '\n';
       
       FillTau(&analysisTree, otree, leptonIndex, tauIndex);
+
       // initialize JER (including data and embedded) 
       otree->apply_recoil = ApplyRecoilCorrections;
       jets::initializeJER(&analysisTree);
