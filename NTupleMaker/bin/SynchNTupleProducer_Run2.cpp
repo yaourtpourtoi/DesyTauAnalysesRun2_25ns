@@ -2091,7 +2091,7 @@ void FillVertices(const AC1B *analysisTree, Synch17Tree *otree, const bool isDat
   otree->RecoVertexX = analysisTree->primvertex_x;
   otree->RecoVertexY = analysisTree->primvertex_y;
   otree->RecoVertexZ = analysisTree->primvertex_z;
-  std::cout << "1" << '\n';
+  
   bool is_refitted_PV_with_BS = true;
   TVector3 vertex_refitted_BS = get_refitted_PV_with_BS(analysisTree, leptonIndex, tauIndex, channel, is_refitted_PV_with_BS);
   otree->pvx = vertex_refitted_BS.X();
@@ -2099,7 +2099,6 @@ void FillVertices(const AC1B *analysisTree, Synch17Tree *otree, const bool isDat
   otree->pvz = vertex_refitted_BS.Z();
   otree->is_refitted_PV_with_BS = is_refitted_PV_with_BS;
 
-  std::cout << "2" << '\n';
   if(!isData){
     for (unsigned int igen = 0; igen < analysisTree->genparticles_count; ++igen) {
 
