@@ -21,7 +21,7 @@ if [[ $YEAR -ne 16 && $YEAR -ne 17 && $YEAR -ne 18 ]]; then
 fi
 
 # pick the template for the corresponding year
-TEMPLATE_CFG_NAME="analysisMacroSynch_mt_${YEAR}"
+TEMPLATE_CFG_NAME="analysisMacroSynch_et_${YEAR}"
 
 # define parameters which are different between MC and data configs
 KEY_LIST=(isData ApplyPUweight ApplyLepSF ApplyRecoilCorrections ApplyBTagScaling)
