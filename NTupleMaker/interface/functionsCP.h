@@ -1870,7 +1870,7 @@ TVector3 get_refitted_PV_with_BS(const AC1B * analysisTree, int firstIndex, int 
 	float vtx_z = analysisTree->primvertexwithbs_z;
 	is_refitted_PV_with_BS = false;
 	std::vector<int> first_indices(-1, -1);
-
+std::cout << "3" << '\n';
 	for(unsigned int i = 0; i < analysisTree->refitvertexwithbs_count; i++)
 	{	
 		if (ch == "mt")
@@ -1880,6 +1880,7 @@ TVector3 get_refitted_PV_with_BS(const AC1B * analysisTree, int firstIndex, int 
 		}
 		else if (ch == "et")
 		{
+			std::cout << "4" << '\n';
 			first_indices[0] = analysisTree->refitvertexwithbs_eleIndex[i][0];
 			first_indices[1] = analysisTree->refitvertexwithbs_eleIndex[i][1];
 		}
@@ -1889,10 +1890,12 @@ TVector3 get_refitted_PV_with_BS(const AC1B * analysisTree, int firstIndex, int 
 			first_indices[1] = analysisTree->refitvertexwithbs_tauIndex[i][1];
 		}
 		
+		std::cout << "5" << '\n';
 		// secondIndex is assumed to be tau_h
 	  if( (firstIndex == first_indices[0] || firstIndex == first_indices[1]) &&
 	      (secondIndex == analysisTree->refitvertexwithbs_tauIndex[i][0] || secondIndex == analysisTree->refitvertexwithbs_tauIndex[i][1]))
 	    {
+				std::cout << "6" << '\n';
 	      vtx_x = analysisTree->refitvertexwithbs_x[i];
 	      vtx_y = analysisTree->refitvertexwithbs_y[i];
 	      vtx_z = analysisTree->refitvertexwithbs_z[i];
