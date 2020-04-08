@@ -1770,15 +1770,15 @@ double IP_significance_helix_lep(const AC1B * analysisTree, int lepIndex, TStrin
 		ref_lep.SetZ(analysisTree->muon_referencePoint[lepIndex][2]);
 		for(auto i:  analysisTree->muon_helixparameters[lepIndex]) h_param_lep.push_back(i);	
 	}
-  else if (channel == "et") 
-	{
-		B = analysisTree->electron_Bfield[lepIndex];
-		ref_lep.SetX(analysisTree->electron_referencePoint[lepIndex][0]);
-		ref_lep.SetY(analysisTree->electron_referencePoint[lepIndex][1]);
-		ref_lep.SetZ(analysisTree->electron_referencePoint[lepIndex][2]);
-		for(auto i:  analysisTree->electron_helixparameters[lepIndex]) h_param_lep.push_back(i);	
-	}
-		
+  // else if (channel == "et") 
+	// {
+	// 	B = analysisTree->electron_Bfield[lepIndex];
+	// 	ref_lep.SetX(analysisTree->electron_referencePoint[lepIndex][0]);
+	// 	ref_lep.SetY(analysisTree->electron_referencePoint[lepIndex][1]);
+	// 	ref_lep.SetZ(analysisTree->electron_referencePoint[lepIndex][2]);
+	// 	for(auto i:  analysisTree->electron_helixparameters[lepIndex]) h_param_lep.push_back(i);	
+	// }
+	// 
 	RMPoint PV(PV_coord.X(), PV_coord.Y(), PV_coord.Z());
 	
 	// !! check that in NTupleMaker the logic of filling PV_cov_components is the same 
@@ -1788,8 +1788,8 @@ double IP_significance_helix_lep(const AC1B * analysisTree, int lepIndex, TStrin
 		{
 			if (channel == "mt")
 				helix_params_covariance[i][j] = analysisTree->muon_helixparameters_covar[lepIndex][i][j];
-		  else if(channel == "et")
-				helix_params_covariance[i][j] = analysisTree->electron_helixparameters_covar[lepIndex][i][j];
+		  // else if(channel == "et")
+			// 	helix_params_covariance[i][j] = analysisTree->electron_helixparameters_covar[lepIndex][i][j];
 		}
 	for (size_t i = 0; i < 3; i++)
 	{

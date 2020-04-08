@@ -2354,7 +2354,7 @@ void FillMuTau(const AC1B *analysisTree, Synch17Tree *otree, int leptonIndex, in
   TVector3 PV_with_BS (analysisTree->primvertexwithbs_x, analysisTree->primvertexwithbs_y, analysisTree->primvertexwithbs_z );
   TVector3 ip; 
   ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> ipCovariance;
-  otree->IP_signif_PV_with_BS_1 = IP_significance_helix_lep(analysisTree, leptonIndex, ch, PV_with_BS, PV_with_BS_cov_components,ipCovariance,ip);
+  otree->IP_signif_PV_with_BS_1 = IP_significance_helix_lep(analysisTree, leptonIndex, "mt", PV_with_BS, PV_with_BS_cov_components,ipCovariance,ip);
 
   TLorentzVector muon_P4;
   muon_P4.SetXYZM(analysisTree->muon_px[leptonIndex], analysisTree->muon_py[leptonIndex], analysisTree->muon_pz[leptonIndex], muonMass);
