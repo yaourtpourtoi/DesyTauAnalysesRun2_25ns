@@ -1688,8 +1688,8 @@ int main(int argc, char * argv[]){
 	isSRevent = (otree->dilepton_veto<0.5 &&  otree->extramuon_veto<0.5 && otree->extraelec_veto<0.5 && otree->pt_1>19 && otree->pt_2>19 && otree->byVVVLooseDeepTau2017v2p1VSjet_2>0.5);
 	if(usePuppiMET) isSRevent = isSRevent && otree->puppimt_1<60;
 	else isSRevent = isSRevent && otree->mt_1<60;
-  if(ch == "mt") isSRevent = isSRevent && (otree->trg_singlemuon>0.5 || otree->trg_mutaucross>0.5)
-  if(ch == "et") isSRevent = isSRevent && (otree->trg_singleelectron>0.5 || otree->trg_etaucross>0.5)
+  if(ch == "mt") isSRevent = isSRevent && (otree->trg_singlemuon>0.5 || otree->trg_mutaucross>0.5);
+  if(ch == "et") isSRevent = isSRevent && (otree->trg_singleelectron>0.5 || otree->trg_etaucross>0.5);
       }
       /*
 	if (!isSRevent) { 

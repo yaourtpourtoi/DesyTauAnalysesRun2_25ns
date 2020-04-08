@@ -1690,12 +1690,13 @@ TLorentzVector IP_helix_lep(const AC1B * analysisTree, int lepIndex, TString cha
 	TLorentzVector LVIP={0.,0.,0.,0.};
 	ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float>> p4_lep;  
 	TLorentzVector p4_lep_auxil; 
+	double B;
 	std::vector<float> h_param_lep = {};
 	ROOT::Math::PositionVector3D<ROOT::Math::Cartesian3D<float>> ref_lep;
 	ROOT::Math::PositionVector3D<ROOT::Math::Cartesian3D<float>> PV(PV_coord.X(), PV_coord.Y(), PV_coord.Z());
 
 	if (channel == "mt") {
-		double B = analysisTree->muon_Bfield[lepIndex];
+		B = analysisTree->muon_Bfield[lepIndex];
 		ref_lep.SetX(analysisTree->muon_referencePoint[lepIndex][0]);
 		ref_lep.SetY(analysisTree->muon_referencePoint[lepIndex][1]);
 		ref_lep.SetZ(analysisTree->muon_referencePoint[lepIndex][2]);
@@ -1704,13 +1705,13 @@ TLorentzVector IP_helix_lep(const AC1B * analysisTree, int lepIndex, TString cha
 		for(auto i:  analysisTree->muon_helixparameters[lepIndex]) h_param_lep.push_back(i);	
 		
 	} else if (channel == "et"){
-		double B = analysisTree->electron_Bfield[lepIndex];
-		ref_lep.SetX(analysisTree->electron_referencePoint[lepIndex][0]);
-		ref_lep.SetY(analysisTree->electron_referencePoint[lepIndex][1]);
-		ref_lep.SetZ(analysisTree->electron_referencePoint[lepIndex][2]);
+		// B = analysisTree->electron_Bfield[lepIndex];
+		// ref_lep.SetX(analysisTree->electron_referencePoint[lepIndex][0]);
+		// ref_lep.SetY(analysisTree->electron_referencePoint[lepIndex][1]);
+		// ref_lep.SetZ(analysisTree->electron_referencePoint[lepIndex][2]);
 		p4_lep_auxil.SetXYZM(analysisTree->electron_px[lepIndex], analysisTree->electron_py[lepIndex], analysisTree->electron_pz[lepIndex], ELECTRON_MASS);
 		p4_lep.SetPxPyPzE(p4_lep_auxil.Px(),p4_lep_auxil.Py(),p4_lep_auxil.Pz(),p4_lep_auxil.E());
-		for(auto i:  analysisTree->electron_helixparameters[lepIndex]) h_param_lep.push_back(i);	
+		// for(auto i:  analysisTree->electron_helixparameters[lepIndex]) h_param_lep.push_back(i);	
 	}
 	
 	ImpactParameter IP;
@@ -1871,7 +1872,7 @@ TVector3 get_refitted_PV_with_BS(const AC1B * analysisTree, int firstIndex, int 
 
 	for(unsigned int i = 0; i < analysisTree->refitvertexwithbs_count; i++)
 	{	
-		std::vector<int> indices(-1, -1);
+		std::vector<int> first_indices(-1, -1);
 		if (ch == "mt")
 		{
 			first_indices[0] = analysisTree->refitvertexwithbs_muIndex[i][0];
