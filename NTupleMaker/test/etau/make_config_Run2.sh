@@ -13,7 +13,7 @@ if [ ! -d "$OUTDIR" ]; then
   mkdir $OUTDIR
 fi
 
-if [[ $CHANNEL != "mt" || $CHANNEL == "et" ]]; then
+if [[ $CHANNEL != "mt" && $CHANNEL != "et" ]]; then
   echo
   echo "To produce the scripts for a specific year and either data or MC this script is to be run with a command:"
   echo
