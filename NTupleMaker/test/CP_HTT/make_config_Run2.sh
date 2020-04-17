@@ -5,22 +5,24 @@
 YEAR=$1
 DATA_TYPE=$2
 CHANNEL=$3
-OUTDIR=./20$YEAR
-TEMPLATE_CFG_PREFIX="analysisMacroSynch"
-TEMPLATE_CFG_NAME=${TEMPLATE_CFG_PREFIX}_${CHANNEL}_${YEAR}_${DATA_TYPE}
+if [[ $CHANNEL == "mt" ]]; then
+  OUTDIR=./mutau/20$YEAR
+else 
+  if [[ $CHANNEL == "et" ]]; then
+    OUTDIR=./etau/20$YEAR
+  else 
+    echo
+    echo "To produce the scripts for a specific year and either data or MC this script is to be run with a command:"
+    echo
+    echo "  ./make_config_Run2.sh <year={16,17,18}> <data_type={data, MC, embedded}> <channel={mt,et}>"
+    echo
+    echo "channel is not mt or et - exiting"
+    exit
+  fi
+fi
 
 if [ ! -d "$OUTDIR" ]; then
   mkdir $OUTDIR
-fi
-
-if [[ $CHANNEL != "mt" && $CHANNEL != "et" ]]; then
-  echo
-  echo "To produce the scripts for a specific year and either data or MC this script is to be run with a command:"
-  echo
-  echo "  ./make_config_Run2.sh <year={16,17,18}> <data_type={data, MC, embedded}> <channel={mt,et}>"
-  echo
-  echo "channel is not mt or et - exiting"
-  exit
 fi
 
 if [[ $YEAR -eq 16 ]]; then
@@ -43,6 +45,8 @@ else
   fi
 fi
 
+TEMPLATE_CFG_PREFIX="analysisMacroSynch"
+TEMPLATE_CFG_NAME=${TEMPLATE_CFG_PREFIX}_${CHANNEL}_${YEAR}_${DATA_TYPE}
 cat ${TEMPLATE_CFG_PREFIX}_common.conf ${TEMPLATE_CFG_PREFIX}_${CHANNEL}.conf > ${TEMPLATE_CFG_NAME}_tmp.conf
 
 # remove all the lines for years which is not the one specified 
@@ -64,6 +68,15 @@ VALUE_LIST_EMBEDDED=(true false true false false)
 # also redefine list of the parameters according to the input data type
 
 if [[ $DATA_TYPE == "data" ]]; then
+  KEY_LIST+=(TauEnergyScaleShift_OneProng TauEnergyScaleShift_OneProngOnePi0 TauEnergyScaleShift_ThreeProng TauEnergyScaleShift_ThreeProngOnePi0)
+  VALUE_LIST_DATA+=(0.0 0.0 0.0 0.0)
+  
+  KEY_LIST+=(TauEnergyScaleShift_OneProng_Error TauEnergyScaleShift_OneProngOnePi0_Error TauEnergyScaleShift_ThreeProng_Error TauEnergyScaleShift_ThreeProngOnePi0_Error)
+  VALUE_LIST_DATA+=(0.0 0.0 0.0 0.0)
+
+  KEY_LIST+=(TauEnergyScaleShift_LepFake_OneProng TauEnergyScaleShift_LepFake_OneProngOnePi0 TauEnergyScaleShift_LepFake_ThreeProng TauEnergyScaleShift_LepFake_ThreeProngOnePi0)
+  VALUE_LIST_DATA+=(0.0 0.0 0.0 0.0)
+  
   VALUE_LIST=("${VALUE_LIST_DATA[@]}")
   NOT_DATA_TYPE=("MC" "embedded")
 else
